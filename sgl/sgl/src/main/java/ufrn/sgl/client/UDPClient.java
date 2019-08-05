@@ -8,8 +8,14 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
+import ufrn.sgl.messages.BiddingRegistrationMessage;
 import ufrn.sgl.messages.CompanyRegistrationMessage;
 import ufrn.sgl.messages.Message;
+import ufrn.sgl.messages.UserRegistrationMessage;
+import ufrn.sgl.model.Address;
+import ufrn.sgl.model.Bidding;
+import ufrn.sgl.model.Company;
+import ufrn.sgl.model.User;
 
 public class UDPClient {
 
@@ -20,14 +26,35 @@ public class UDPClient {
 		try {
 			
 			DatagramSocket clientSocket = new DatagramSocket();
-			InetAddress inetAddress = InetAddress.getByName("3.16.149.25");
+			InetAddress inetAddress = InetAddress.getByName("3.16.213.161");
 			
-			Message msg = new CompanyRegistrationMessage("Teste", "123", "Teste", "Engenharia");
-			byte[] sendMessage = convertMessageToByteArray(msg);
-			DatagramPacket sendPacket = new DatagramPacket(
-					sendMessage, sendMessage.length,
+			User pmNatal = new User("Prefeitura Municipal de Natal", "PMNATAL", "123/0001-23", 
+					 new Address(1, "rua das roças", 87, "Candelária", "Natal", "RN"), 
+					 "pmnatal@gmail.com");
+			
+			Message msg1 = new CompanyRegistrationMessage(new Company("Teste", "123", "Teste", "Engenharia"));
+			Message msg2 = new UserRegistrationMessage( pmNatal );
+			Message msg3 = new BiddingRegistrationMessage(
+					new Bidding(pmNatal, "Compra de resma de papel para as escolas municipais", 11203));
+			
+			
+			byte[] sendMessage1 = convertMessageToByteArray(msg1);
+			DatagramPacket sendPacket1 = new DatagramPacket(
+					sendMessage1, sendMessage1.length,
 					inetAddress, 9003);
-					clientSocket.send(sendPacket);
+			clientSocket.send(sendPacket1);
+			
+			byte[] sendMessage2 = convertMessageToByteArray(msg2);
+			DatagramPacket sendPacket2 = new DatagramPacket(
+					sendMessage2, sendMessage2.length,
+					inetAddress, 9003);
+			clientSocket.send(sendPacket2);
+			
+			byte[] sendMessage3 = convertMessageToByteArray(msg3);
+			DatagramPacket sendPacket3 = new DatagramPacket(
+					sendMessage3, sendMessage3.length,
+					inetAddress, 9003);
+			clientSocket.send(sendPacket3);
 			
 			clientSocket.close();
 			

@@ -18,8 +18,7 @@ public class UDPServer {
 	private DatagramSocket serverSocket;
 
 	public UDPServer() {
-		
-		
+			
 		try {
 			this.setServerSocket(new DatagramSocket(SERVERPORT));
 			System.out.println("UDP Server - Successful Initialization");
@@ -27,6 +26,7 @@ public class UDPServer {
 			System.out.println("ERROR - Failed to initialize server on port " + SERVERPORT);
 			e1.printStackTrace();
 		}
+	
 	}
 	
 	public void run () throws ClassNotFoundException {
