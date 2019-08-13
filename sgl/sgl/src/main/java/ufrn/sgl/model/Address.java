@@ -2,19 +2,40 @@ package ufrn.sgl.model;
 
 import java.io.Serializable;
 
+import javax.persistence.*;
+
+@Entity
+@Embeddable
+@Table(name = "Address")
 public class Address implements Serializable{
 
 	private static final long serialVersionUID = 676608019260642675L;
 
-	private final int id;
-	private final String street;
-	private final int number;
-	private final String neighborhood;
-	private final String city;
-	private final String state;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	private long id;
+	
+	@Column(name = "street")
+	private String street;
+	
+	@Column(name = "number")
+	private int number;
+
+	@Column(name = "neighborhood")
+	private String neighborhood;
+	
+	@Column(name = "city")
+	private String city;
+	
+	@Column(name = "state")
+	private String state;
+	
+	public Address () {
+		
+	}
 	
 	public Address(
-		int id,
 		String street, 
 		int number, 
 		String neighborhood, 
@@ -22,7 +43,6 @@ public class Address implements Serializable{
 		String state)
 	{
 		super();
-		this.id = id;
 		this.street = street;
 		this.number = number;
 		this.neighborhood = neighborhood;
@@ -30,8 +50,12 @@ public class Address implements Serializable{
 		this.state = state;
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
+	}
+	
+	public void setId( long id ) {
+		this.id = id;
 	}
 
 	public String getStreet() {
@@ -62,4 +86,11 @@ public class Address implements Serializable{
 		
 		return address;
 	}
+	
+    @Override
+    public String toString() {
+        return "String [id=" + id + ", street=" + street + 
+        		", number=" + number + ", neighborhood=" + neighborhood +
+        		", city=" + city + ", state=" + state + "]";
+    }
 }

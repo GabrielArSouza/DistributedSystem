@@ -2,15 +2,36 @@ package ufrn.sgl.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "Company")
 public class Company implements Serializable{
 
 	
 	private static final long serialVersionUID = -5757486479916397922L;
 	
-	private final String companyName;
-	private final String cnpj;
-	private final String fantasyName;
-	private final String typeOfService;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id")
+	private long id;
+	
+	@Column(name = "companyName")
+	private String companyName;
+
+	@Column(name = "cnpj")
+	private String cnpj;
+	
+	@Column(name = "fantasyName")
+	private String fantasyName;
+	
+	@Column(name = "typeOfService")
+	private String typeOfService;
 	
 	public Company(
 			String companyName, 
@@ -23,6 +44,14 @@ public class Company implements Serializable{
 		this.cnpj = cnpj;
 		this.fantasyName = fantasyName;
 		this.typeOfService = typeOfService;
+	}
+	
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public String getCompanyName() {
@@ -41,7 +70,14 @@ public class Company implements Serializable{
 		return typeOfService;
 	}
 	
+	@Override
 	public String toString () {
+		return "String [id=" + id + ", comapanyName=" + companyName + 
+        		", cnpj=" + cnpj + ", fantasyName=" + fantasyName 
+        		+ ",service=" + typeOfService + "]";	
+	}
+	
+	public String getCompany () {
 		
 		String msg = "\"Company Name\" : \"" + this.companyName;
 		msg += "\",\n\"CNPJ\" : \"" + this.cnpj;

@@ -26,10 +26,10 @@ public class UDPClient {
 		try {
 			
 			DatagramSocket clientSocket = new DatagramSocket();
-			InetAddress inetAddress = InetAddress.getByName("3.16.213.161");
+			InetAddress inetAddress = InetAddress.getByName("localhost");
 			
 			User pmNatal = new User("Prefeitura Municipal de Natal", "PMNATAL", "123/0001-23", 
-					 new Address(1, "rua das roças", 87, "Candelária", "Natal", "RN"), 
+					 new Address("rua das roças", 87, "Candelária", "Natal", "RN"), 
 					 "pmnatal@gmail.com");
 			
 			Message msg1 = new CompanyRegistrationMessage(new Company("Teste", "123", "Teste", "Engenharia"));

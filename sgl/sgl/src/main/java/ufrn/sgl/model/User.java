@@ -2,15 +2,47 @@ package ufrn.sgl.model;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+@Entity
+@Embeddable
+@Table(name = "User")
 public class User implements Serializable{
 
 	private static final long serialVersionUID = -7698133836342063149L;
 	
-	private final String jurisdictionalName;
-	private final String jurisdictionalCode;
-	private final String cnpj;
-	private final Address address;
-	private final String email;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id")
+	private long id;
+	
+	@Column(name = "jusrisctionalName")
+	private String jurisdictionalName;
+	
+	@Column(name = "jurisdictionalCode")
+	private String jurisdictionalCode;
+	
+	@Column(name = "cnpj")
+	private String cnpj;
+	
+	@Column(name = "email")
+	private String email;
+	
+	
+	@JoinColumn(name = "addressId")
+	@OneToOne(cascade = CascadeType.ALL)
+	private Address address;
+	
 	
 	public User(
 			String jurisdictionalName, 
@@ -25,6 +57,18 @@ public class User implements Serializable{
 		this.cnpj = cnpj;
 		this.address = address;
 		this.email = email;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public String getEmail() {
+		return email;
 	}
 
 	public String getJurisdictionalName() {
@@ -43,8 +87,19 @@ public class User implements Serializable{
 		return address;
 	}
 	
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+	
 	@Override
 	public String toString () {
+		return "String [id=" + id + ", jurisdictionalName=" + jurisdictionalName + 
+        		", jurisdictionalCode=" + jurisdictionalCode 
+        		+ ", cnpj=" + cnpj + ", email=" + email + ", addressId=" +
+        		address.getId() + "]";	
+	}
+	
+	public String getUser () {
 		
 		String msg = "\"Jurisdictional Name\" : \"" + this.jurisdictionalName;
 		msg += "\",\n\"Jurisdictional Code\" : \"" + this.jurisdictionalCode;
@@ -54,9 +109,5 @@ public class User implements Serializable{
 		
 		return msg;
 	}
-	
-	
-	
-	
 	
 }
