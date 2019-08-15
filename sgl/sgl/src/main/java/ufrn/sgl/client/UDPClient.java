@@ -10,6 +10,8 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.net.UnknownHostException;
+import java.sql.Time;
 
 import ufrn.sgl.messages.BiddingRegistrationMessage;
 import ufrn.sgl.messages.CompanyRegistrationMessage;
@@ -21,10 +23,12 @@ import ufrn.sgl.model.Bidding;
 import ufrn.sgl.model.Company;
 import ufrn.sgl.model.User;
 import ufrn.sgl.util.MessageConvert;
+import ufrn.sgl.util.PingConnection;
 
 public class UDPClient {
 
 	MessageConvert msgConvert = MessageConvert.getInstance();
+	DatagramSocket clientSocket;
 	
 	public UDPClient() {
 		
@@ -32,7 +36,8 @@ public class UDPClient {
 	
 		try {
 			
-			DatagramSocket clientSocket = new DatagramSocket();
+			this.clientSocket = new DatagramSocket();
+			
 			InetAddress inetAddress = InetAddress.getByName("localhost");
 			
 //			User pmNatal = new User("Prefeitura Municipal de Natal", "PMNATAL", "123/0001-23", 
@@ -64,41 +69,25 @@ public class UDPClient {
 //			clientSocket.send(sendPacket3);
 //			
 			
-			try {
-				this.pingConnection(clientSocket, inetAddress);
-				wait(5000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			//clientSocket.close();
-			
+	
 		} catch (IOException ex) { }
+		
+		try {
+			PingConnection ping = new PingConnection();
+			ping.start();
+			Thread.sleep(15000);
+			ping.interrupt();
+			
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		System.out.println("UDP Client Terminating ");
 	}
-	
-	private void pingConnection (DatagramSocket clientSocket, InetAddress server ) throws IOException, ClassNotFoundException {
-		
-		while (true) {
-			byte[] ping = msgConvert.convertMessageToByteArray(new CheckConnection());
-			DatagramPacket sendPingPacket = new DatagramPacket(
-					ping, ping.length, server, 9003);
-			clientSocket.send(sendPingPacket);
-				
-			DatagramPacket receivePingPacket = new DatagramPacket(
-					ping, ping.length, server, 9003);
-			clientSocket.receive(receivePingPacket);
-			// convert message to object
-			ObjectInputStream iStream = new ObjectInputStream(
-					new ByteArrayInputStream(receivePingPacket.getData()));
-			Message msg = (Message) iStream.readObject();
-			msg.setOrigin(receivePingPacket.getAddress());
-			iStream.close();
-		}
-	}
-	
 			
 	public static void main(String args[]) { new UDPClient(); }
 	

@@ -17,15 +17,18 @@ public class UDPServer {
 
 	// Definitions
 	private final int SERVERPORT = 9003;
+	private final int SENDSERVERPORT = 9013;
 	private final int SIZEUDPDATAGRAM = 1024;
 	private MessageConvert msgConvert; 
 	
 	private DatagramSocket serverSocket;
+	private DatagramSocket sendServerSocket;
 
 	public UDPServer() {
 			
 		try {
 			this.setServerSocket(new DatagramSocket(SERVERPORT));
+			this.setSendServerSocket(new DatagramSocket());
 			this.msgConvert = MessageConvert.getInstance();
 			System.out.println("UDP Server - Successful Initialization");
 		} catch (SocketException e1) {
@@ -59,8 +62,8 @@ public class UDPServer {
 		
 		DatagramPacket sendPackage = new DatagramPacket(
 				msgToSend, msgToSend.length,
-				address, 9003);
-		serverSocket.send(sendPackage);
+				address, 9013);
+		sendServerSocket.send(sendPackage);
 		System.out.println("sending message to" + address);
 	}
 	
@@ -89,7 +92,6 @@ public class UDPServer {
 		try {
 			server.run();
 		} catch (ClassNotFoundException | IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -101,6 +103,15 @@ public class UDPServer {
 	public void setServerSocket(DatagramSocket serverSocket) {
 		this.serverSocket = serverSocket;
 	}
+
+	public DatagramSocket getSendServerSocket() {
+		return sendServerSocket;
+	}
+
+	public void setSendServerSocket(DatagramSocket sendServerSocket) {
+		this.sendServerSocket = sendServerSocket;
+	}
+	
 	
 	
 }
