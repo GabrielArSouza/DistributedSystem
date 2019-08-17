@@ -28,31 +28,6 @@ public class AddressDao implements AddressDaoInterface{
 			System.out.println("Error: error to save a address in a Database Server");
 		}
 	}
-	
-	public void insert () {
-		
-        Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-
-            transaction = session.beginTransaction();
-
-            String hql = "INSERT INTO Address (street, number, neighborhood, "
-            		+ "city, state) SELECT street, number, neighborhood, city,"
-            		+ "state FROM Address";
-           
-            Query query = session.createQuery(hql);
-            int result = query.executeUpdate();
-            
-            System.out.println("Rows affected: " + result);
-
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            e.printStackTrace();
-        }
-    }
 
 	@Override
 	public void create(Address address) {
