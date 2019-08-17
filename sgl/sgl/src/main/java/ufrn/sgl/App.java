@@ -4,6 +4,7 @@ import ufrn.sgl.dao.AddressDao;
 import ufrn.sgl.dao.UserDao;
 import ufrn.sgl.model.Address;
 import ufrn.sgl.model.User;
+import ufrn.sgl.util.TokenGenerator;
 
 /**
  * Hello world!
@@ -26,6 +27,8 @@ public class App
 //        UserDao userDao = new UserDao();
 //        userDao.save(user);
         //userDao.insert();
+        
+        TokenGenerator.getToken();
         		
        
     }
