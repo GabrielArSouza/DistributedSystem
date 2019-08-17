@@ -1,7 +1,5 @@
 package ufrn.sgl.messages.protocol.connection;
 
-import java.io.Serializable;
-
 import ufrn.sgl.messages.Message;
 
 public class CheckConnection extends Message{

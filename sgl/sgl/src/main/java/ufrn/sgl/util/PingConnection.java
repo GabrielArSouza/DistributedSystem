@@ -19,17 +19,20 @@ public class PingConnection extends Thread{
 	private DatagramSocket sendSocket;
 	private DatagramSocket receiveSocket;
 	private MessageConvert msgConvert = MessageConvert.getInstance();
-	
-	private String server = "localhost";
+
+	private int idServer;
+	private int attemps;
 	private InetAddress IPAddress; 
-	private Boolean isRunning;
+	private Boolean isRunning;	
 	
-	public PingConnection () throws UnknownHostException {
+	public PingConnection ( int idServer ) throws UnknownHostException {
 		try {
-		
+			this.attemps = 0;
+			this.idServer = idServer; 
 			this.sendSocket = new DatagramSocket();
-			this.receiveSocket = new DatagramSocket(9013);
-			this.IPAddress = InetAddress.getByName(server);
+			this.receiveSocket = new DatagramSocket(Definitions.SERVER_SEND_PORT);
+
+			this.IPAddress = InetAddress.getByName(Definitions.SERVERS[this.idServer]);
 			this.isRunning = true;
 			this.receiveSocket.setSoTimeout(1000);
 			
@@ -45,16 +48,27 @@ public class PingConnection extends Thread{
 				System.out.println(m.getClass());
 				Thread.sleep(1000);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (ConnectionFailureException e) {
-				System.out.println(e.getMessage());
+				
+				if (this.attemps < 2) {
+					this.attemps++;
+					continue;
+				}else {
+					this.attemps = 0;
+					this.idServer = ++idServer % Definitions.NUMBER_SERVERS;
+					try {
+						this.IPAddress = InetAddress.getByName(Definitions.SERVERS[this.idServer]);
+					} catch (UnknownHostException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				//System.out.println(e.getMessage());
 			} 
 		}
 	}
@@ -66,8 +80,9 @@ public class PingConnection extends Thread{
 		byte[] sendData = new byte[1024];
 		sendData = msgConvert.convertMessageToByteArray(new CheckConnection());
 		DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length,
-				IPAddress, 9003);
+				IPAddress, Definitions.SERVER_RECEIVE_PORT);
 		sendSocket.send(sendPacket);
+		System.out.println("Sending mensage to " + IPAddress + ":" +Definitions.SERVER_RECEIVE_PORT);
 	}
 	
 	private Message receiveMessage () throws IOException, ClassNotFoundException, ConnectionFailureException {
@@ -86,5 +101,9 @@ public class PingConnection extends Thread{
 		iStream.close();
 		
 		return msg;
+	}
+	
+	public int getIdServer () {
+		return this.idServer;
 	}
 }

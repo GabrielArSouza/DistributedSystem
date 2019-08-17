@@ -11,14 +11,12 @@ import java.net.SocketException;
 import ufrn.sgl.messages.Message;
 import ufrn.sgl.messages.protocol.connection.CheckConnection;
 import ufrn.sgl.messages.protocol.connection.ConfirmConnection;
+import ufrn.sgl.util.Definitions;
 import ufrn.sgl.util.MessageConvert;
 
 public class UDPServer {
 
 	// Definitions
-	private final int SERVERPORT = 9003;
-	private final int SENDSERVERPORT = 9013;
-	private final int SIZEUDPDATAGRAM = 1024;
 	private MessageConvert msgConvert; 
 	
 	private DatagramSocket serverSocket;
@@ -27,12 +25,12 @@ public class UDPServer {
 	public UDPServer() {
 			
 		try {
-			this.setServerSocket(new DatagramSocket(SERVERPORT));
+			this.setServerSocket(new DatagramSocket(Definitions.SERVER_RECEIVE_PORT));
 			this.setSendServerSocket(new DatagramSocket());
 			this.msgConvert = MessageConvert.getInstance();
 			System.out.println("UDP Server - Successful Initialization");
 		} catch (SocketException e1) {
-			System.out.println("ERROR - Failed to initialize server on port " + SERVERPORT);
+			System.out.println("ERROR - Failed to initialize server on port " + Definitions.SERVER_RECEIVE_PORT);
 			e1.printStackTrace();
 		}
 	
@@ -40,9 +38,7 @@ public class UDPServer {
 	
 	public void run () throws ClassNotFoundException, IOException {
 		
-		
 		while (true) {
-						
 			Message msg = this.receiveMessage();
 			
 			// check messages
@@ -50,27 +46,26 @@ public class UDPServer {
 				sendMessage(new ConfirmConnection(), msg.getOrigin());
 			}
 			
-			System.out.println(msg.getClass());
-			System.out.println(msg.getMessage() + "\nFROM: " + msg.getOrigin());
-				
-
 		}
 	}
 	
 	private void sendMessage ( Message msg, InetAddress address ) throws IOException {
+		
+		// convert message to a byte array
 		byte[] msgToSend = msgConvert.convertMessageToByteArray(msg);
 		
 		DatagramPacket sendPackage = new DatagramPacket(
 				msgToSend, msgToSend.length,
-				address, 9013);
+				address, Definitions.SERVER_SEND_PORT);
 		sendServerSocket.send(sendPackage);
+		
 		System.out.println("sending message to" + address);
 	}
 	
 	private Message receiveMessage() throws IOException, ClassNotFoundException {
 		
 		// create package to receive
-		byte[] receiveMessage = new byte[SIZEUDPDATAGRAM];
+		byte[] receiveMessage = new byte[1024];
 		DatagramPacket receivePacket = new DatagramPacket(
 				receiveMessage, receiveMessage.length);
 		
@@ -83,19 +78,10 @@ public class UDPServer {
 		Message msg = (Message) iStream.readObject();
 		msg.setOrigin(receivePacket.getAddress());
 		iStream.close();
-		
+		System.out.println(msg.getMessage() + "\nFROM: " + msg.getOrigin());
 		return msg;
 	}
 	
-	public static void main(String[] args) { 
-		UDPServer server = new UDPServer(); 
-		try {
-			server.run();
-		} catch (ClassNotFoundException | IOException e) {
-			e.printStackTrace();
-		}
-	}
-
 	public DatagramSocket getServerSocket() {
 		return serverSocket;
 	}
@@ -112,6 +98,14 @@ public class UDPServer {
 		this.sendServerSocket = sendServerSocket;
 	}
 	
-	
+	public static void main(String[] args) { 
+		
+		UDPServer server = new UDPServer(); 
+		try {
+			server.run();
+		} catch (ClassNotFoundException | IOException e) {
+			e.printStackTrace();
+		}
+	}	
 	
 }
