@@ -7,12 +7,17 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.util.Map;
 
 import ufrn.sgl.messages.Message;
 import ufrn.sgl.messages.protocol.connection.CheckConnection;
 import ufrn.sgl.messages.protocol.connection.ConfirmConnection;
+import ufrn.sgl.messages.protocol.session.RequestSession;
+import ufrn.sgl.messages.protocol.session.SuccessfullyLogin;
+import ufrn.sgl.model.User;
 import ufrn.sgl.util.Definitions;
 import ufrn.sgl.util.MessageConvert;
+import ufrn.sgl.util.TokenGenerator;
 
 public class UDPServer {
 
@@ -22,6 +27,8 @@ public class UDPServer {
 	private DatagramSocket serverSocket;
 	private DatagramSocket sendServerSocket;
 
+	private Map<String, User> activeSessions;
+	
 	public UDPServer() {
 			
 		try {
@@ -44,6 +51,14 @@ public class UDPServer {
 			// check messages
 			if ( msg.getClass().equals(CheckConnection.class) ) { 					
 				sendMessage(new ConfirmConnection(), msg.getOrigin());
+			} else if (msg.getClass().equals(RequestSession.class)) {
+				// TODO: Check if this a registered user
+				
+				String token = TokenGenerator.getToken();
+				
+				// TODO: save the new generated session
+				
+				sendMessage(new SuccessfullyLogin(token), msg.getOrigin());
 			}
 			
 		}

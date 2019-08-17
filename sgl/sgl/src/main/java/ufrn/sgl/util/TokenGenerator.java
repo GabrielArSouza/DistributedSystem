@@ -8,7 +8,7 @@ public class TokenGenerator {
 	public static String getToken () {
 	    int leftLimit = 48; // letter 'a'
 	    int rightLimit = 122; // letter 'z'
-	    int targetStringLength = 47;
+	    int targetStringLength = 71;
 	  
 	    Random random = new Random();
 	    StringBuilder buffer = new StringBuilder(targetStringLength);
