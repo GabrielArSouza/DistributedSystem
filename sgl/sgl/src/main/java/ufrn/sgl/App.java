@@ -20,11 +20,11 @@ public class App
         //addressDao.insert();
         
         
-        User user = new User("Prefeitura Municipal de Jucurutu", "PMJuc", "1231383/0001-23", 
-				 new Address("av José de Alencar", 8392, "Candelária", "Natal", "RN"), 
-				 "pmnat@gmail.com");
-        UserDao userDao = new UserDao();
-        userDao.save(user);
+//        User user = new User("Prefeitura Municipal de Jucurutu", "PMJuc", "1231383/0001-23", 
+//				 new Address("av José de Alencar", 8392, "Candelária", "Natal", "RN"), 
+//				 "pmnat@gmail.com");
+//        UserDao userDao = new UserDao();
+//        userDao.save(user);
         //userDao.insert();
         		
        

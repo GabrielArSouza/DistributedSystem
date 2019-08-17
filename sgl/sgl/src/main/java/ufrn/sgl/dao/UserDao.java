@@ -5,12 +5,13 @@ import javax.persistence.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import ufrn.sgl.dao.interfaces.UserDaoInterface;
 import ufrn.sgl.model.User;
 import ufrn.sgl.util.HibernateUtil;
 
-public class UserDao {
+public class UserDao implements UserDaoInterface {
 
-	public void save ( User user ) {
+	private void save ( User user ) {
 		
 		Transaction transaction = null;
 
@@ -18,14 +19,17 @@ public class UserDao {
 			transaction = session.beginTransaction();
 			session.save(user);
 			session.getTransaction().commit();
-//			transaction.commit();
+			transaction.commit();
 		} catch (Exception e) {
 			if (transaction != null) { transaction.rollback(); }
 			e.printStackTrace();
 		}
 	}
 	
-	public void insert () {
+
+	@Override
+	public void create(User user) {
+		this.save(user);
 		
 		Transaction transaction = null;
 		try ( Session session = HibernateUtil.getSessionFactory().openSession() ){
@@ -51,6 +55,25 @@ public class UserDao {
 			}
 			e.printStackTrace();
 		}
+		
+	}
+
+	@Override
+	public User read(long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void update(User user) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void delete(User user) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

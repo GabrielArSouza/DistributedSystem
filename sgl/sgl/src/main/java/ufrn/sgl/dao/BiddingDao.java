@@ -3,12 +3,13 @@ package ufrn.sgl.dao;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import ufrn.sgl.dao.interfaces.BiddingDaoInterface;
 import ufrn.sgl.model.Bidding;
 import ufrn.sgl.util.HibernateUtil;
 
-public class BiddingDao {
+public class BiddingDao implements BiddingDaoInterface {
 
-	public void save(Bidding bidding) {
+	private void save(Bidding bidding) {
 		Transaction transaction = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			// start a transaction
@@ -25,6 +26,31 @@ public class BiddingDao {
 			}
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void create(Bidding bidding) {
+		this.save(bidding);
+		//TODO
+		
+	}
+
+	@Override
+	public Bidding read(long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void update(Bidding bidding) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void delete(Bidding bidding) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
