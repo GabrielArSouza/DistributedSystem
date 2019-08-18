@@ -12,10 +12,10 @@ public interface UserServiceInterface {
 	
 	/**
 	 * get a user of database by a ID
-	 * @param id the User ID
-	 * @return the user that match with ID
+	 * @param user the user to get in database
+	 * @return the user that match with user
 	 */
-	public User read (long id);
+	public User read (User user);
 	
 	/**
 	 * update the user in a database

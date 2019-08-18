@@ -23,9 +23,9 @@ public class UDPMessageBroker {
 		this.receiveSocket = receiveSocket;
 	}
 	
-	public void sendMessage (InetAddress IPAddress, Integer port) throws IOException {
+	public void sendMessage (Message msg, InetAddress IPAddress, Integer port) throws IOException {
 		byte[] sendData = new byte[1024];
-		sendData = msgConvert.convertMessageToByteArray(new CheckConnection());
+		sendData = msgConvert.convertMessageToByteArray(msg);
 		DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length,
 				IPAddress, port);
 		sendSocket.send(sendPacket);

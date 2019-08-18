@@ -15,8 +15,9 @@ public class UserService implements UserServiceInterface {
 	}
 
 	@Override
-	public User read(long id) {
-		return dao.read(id);
+	public User read(User user) {
+		//TODO exceptions
+		return dao.read(user);
 	}
 
 	@Override

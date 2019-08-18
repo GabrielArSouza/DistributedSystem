@@ -7,6 +7,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.util.HashMap;
 import java.util.Map;
 
 import ufrn.sgl.messages.Message;
@@ -32,6 +33,7 @@ public class UDPServer {
 	public UDPServer() {
 			
 		try {
+			this.activeSessions = new HashMap<String, User>();
 			this.setServerSocket(new DatagramSocket(Definitions.SERVER_RECEIVE_PORT));
 			this.setSendServerSocket(new DatagramSocket());
 			this.msgConvert = MessageConvert.getInstance();
@@ -49,16 +51,14 @@ public class UDPServer {
 			Message msg = this.receiveMessage();
 			
 			// check messages
-			if ( msg.getClass().equals(CheckConnection.class) ) { 					
-				sendMessage(new ConfirmConnection(), msg.getOrigin());
+			if ( msg.getClass().equals(CheckConnection.class) ) { 
+				Message replyMessage = UDPProtocolServer.connection();
+				sendMessage(replyMessage, msg.getOrigin());
 			} else if (msg.getClass().equals(RequestSession.class)) {
-				// TODO: Check if this a registered user
-				
-				String token = TokenGenerator.getToken();
-				
-				// TODO: save the new generated session
-				
-				sendMessage(new SuccessfullyLogin(token), msg.getOrigin());
+				RequestSession msgSession = (RequestSession) msg;
+				Message replyMessage = UDPProtocolServer.session( msgSession );
+				activeSessions.put(replyMessage.getMessage(), msgSession.getUser() );
+				sendMessage(replyMessage, msg.getOrigin());
 			}
 			
 		}

@@ -17,19 +17,19 @@ public class App
         System.out.println( "Hello World!" );
 //        AddressDao addressDao = new AddressDao();
 //        Address address = new Address("merda", 31279, "ave", "N", "RJ");
-//        addressDao.save(address);
-        //addressDao.insert();
-        
-        
+//        addressDao.create(address);
+ 
 //        User user = new User("Prefeitura Municipal de Jucurutu", "PMJuc", "1231383/0001-23", 
 //				 new Address("av José de Alencar", 8392, "Candelária", "Natal", "RN"), 
-//				 "pmnat@gmail.com");
+//				 "pmnat@gmail.com", "123");
 //        UserDao userDao = new UserDao();
-//        userDao.save(user);
-        //userDao.insert();
+//        userDao.create(user);
         
-        TokenGenerator.getToken();
-        		
+        User user = new User ("pmnat@gmail.com", "123");
+        UserDao dao = new UserDao();
+        User reply = dao.read(user);
+        System.out.println(reply.toString());
+        
        
     }
 }

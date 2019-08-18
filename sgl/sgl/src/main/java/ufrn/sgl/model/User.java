@@ -37,18 +37,28 @@ public class User implements Serializable{
 	@Column(name = "email")
 	private String email;
 	
+	@Column(name = "password")
+	private String password;
 	
 	@JoinColumn(name = "addressId")
 	@OneToOne(cascade = CascadeType.ALL)
 	private Address address;
 	
 	
+	public User (String email, String password){
+		this.email = email;
+		this.password = password;
+	}
+	
+	public User () {}
+	
 	public User(
 			String jurisdictionalName, 
 			String jurisdictionalCode, 
 			String cnpj, 
 			Address address,
-			String email) 
+			String email,
+			String password) 
 	{
 		super();
 		this.jurisdictionalName = jurisdictionalName;
@@ -56,6 +66,7 @@ public class User implements Serializable{
 		this.cnpj = cnpj;
 		this.address = address;
 		this.email = email;
+		this.password = password;
 	}
 
 	public long getId() {
@@ -90,6 +101,15 @@ public class User implements Serializable{
 		this.address = address;
 	}
 	
+	
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	@Override
 	public String toString () {
 		return "String [id=" + id + ", jurisdictionalName=" + jurisdictionalName + 

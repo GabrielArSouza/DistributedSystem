@@ -11,11 +11,11 @@ public interface UserDaoInterface {
 	public void create ( User user );
 	
 	/**
-	 * get a user of database by a ID
-	 * @param id the User ID
-	 * @return the user that match with ID
+	 * get a user of database by a user
+	 * @param user the user
+	 * @return the user that match with user
 	 */
-	public User read (long id);
+	public User read (User user);
 	
 	/**
 	 * update the user in a database

@@ -1,5 +1,7 @@
 package ufrn.sgl.dao;
 
+import java.util.List;
+
 import javax.persistence.Query;
 
 import org.hibernate.Session;
@@ -59,11 +61,36 @@ public class UserDao implements UserDaoInterface {
 	}
 
 	@Override
-	public User read(long id) {
-		// TODO Auto-generated method stub
-		return null;
+	public User read(User user) {
+		Transaction transaction = null;
+		User selected = null;
+		
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			// start a transaction
+			transaction = session.beginTransaction();
+			
+			// get an user object
+	        String hql = " FROM User U WHERE U.email = :userEmail and U.password = :userPassword";
+	        Query query = session.createQuery(hql);
+	        query.setParameter("userEmail", user.getEmail());
+	        query.setParameter("userPassword", user.getPassword());
+	        List<?> results = query.getResultList();
+	        
+	        if (results != null && !results.isEmpty()) 
+	        	selected = (User) results.get(0);
+          
+	        // commit transaction
+	        transaction.commit();
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+	        if (transaction != null) 
+	        	transaction.rollback();
+		}
+		
+		return selected;
 	}
-
+	
 	@Override
 	public void update(User user) {
 		// TODO Auto-generated method stub
