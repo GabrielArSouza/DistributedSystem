@@ -61,15 +61,11 @@ public class PingConnection extends Thread{
 				}else {
 					this.attemps = 0;
 					this.idServer = ++idServer % Definitions.NUMBER_SERVERS;
-					try {
-						this.IPAddress = InetAddress.getByName(Definitions.SERVERS[this.idServer]);
-					} catch (UnknownHostException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+					try { this.IPAddress = InetAddress.getByName(Definitions.SERVERS[this.idServer]);
+					} catch (UnknownHostException e1) { System.out.println("Unknown Host"); }
+			
 				}
-				//System.out.println(e.getMessage());
-			} 
+			}
 		}
 	}
 	

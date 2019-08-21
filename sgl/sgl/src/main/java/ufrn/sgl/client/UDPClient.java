@@ -8,7 +8,10 @@ import java.net.UnknownHostException;
 
 import ufrn.sgl.Exceptions.ConnectionFailureException;
 import ufrn.sgl.messages.Message;
+import ufrn.sgl.messages.protocol.register.RequestRegistration;
+import ufrn.sgl.messages.protocol.register.RequestUserRegistration;
 import ufrn.sgl.messages.protocol.session.RequestSession;
+import ufrn.sgl.model.Address;
 import ufrn.sgl.model.User;
 import ufrn.sgl.util.Definitions;
 import ufrn.sgl.util.MessageConvert;
@@ -16,9 +19,7 @@ import ufrn.sgl.util.PingConnection;
 import ufrn.sgl.util.UDPMessageBroker;
 
 public class UDPClient {
-
-	private MessageConvert msgConvert = MessageConvert.getInstance();
-	private DatagramSocket clientSocket;
+	
 	private final UDPMessageBroker broker;
 	private InetAddress IPAddress;
 	private int idServer;
@@ -55,15 +56,19 @@ public class UDPClient {
 //			e.printStackTrace();
 //		}
 		
-		User user = new User ("pmnat@gmail.com", "123");
-		User userError = new User ("pmat@gmail.com", "123");
+//		User user = new User ("pmnat@gmail.com", "123");
+//		User userError = new User ("pmat@gmail.com", "123");
+        User user = new User("Prefeitura Municipal de Natal", "PMNat", "122342483/0001-23", 
+				 new Address("av Pedro Pedrosa", 123, "Candelária", "Natal", "RN"), 
+				 "pmnatgrand@gmail.com", "1234567");
+
 		try {
-			broker.sendMessage(new RequestSession(user), IPAddress, Definitions.SERVER_RECEIVE_PORT);
+			broker.sendMessage(new RequestUserRegistration(user), IPAddress, Definitions.SERVER_RECEIVE_PORT);
 			Message r = broker.receiveMessage();
 			System.out.println(r.getMessage());
-			broker.sendMessage(new RequestSession(userError), IPAddress, Definitions.SERVER_RECEIVE_PORT);
-			r = broker.receiveMessage();
-			System.out.println(r.getMessage());
+//			broker.sendMessage(new RequestSession(userError), IPAddress, Definitions.SERVER_RECEIVE_PORT);
+//			r = broker.receiveMessage();
+//			System.out.println(r.getMessage());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

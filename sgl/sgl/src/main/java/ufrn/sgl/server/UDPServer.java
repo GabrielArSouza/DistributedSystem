@@ -13,6 +13,7 @@ import java.util.Map;
 import ufrn.sgl.messages.Message;
 import ufrn.sgl.messages.protocol.connection.CheckConnection;
 import ufrn.sgl.messages.protocol.connection.ConfirmConnection;
+import ufrn.sgl.messages.protocol.register.RequestRegistration;
 import ufrn.sgl.messages.protocol.session.RequestSession;
 import ufrn.sgl.messages.protocol.session.SuccessfullyLogin;
 import ufrn.sgl.model.User;
@@ -59,12 +60,17 @@ public class UDPServer {
 				Message replyMessage = UDPProtocolServer.session( msgSession );
 				activeSessions.put(replyMessage.getMessage(), msgSession.getUser() );
 				sendMessage(replyMessage, msg.getOrigin());
+			} else if (msg.getClass().getSuperclass().equals(RequestRegistration.class)) {
+				System.out.println("message from registration");
+				Message replyMessage = UDPProtocolServer.register(msg);
+				sendMessage(replyMessage, msg.getOrigin());
 			}
 			
 		}
 	}
 	
 	private void sendMessage ( Message msg, InetAddress address ) throws IOException {
+		
 		
 		// convert message to a byte array
 		byte[] msgToSend = msgConvert.convertMessageToByteArray(msg);

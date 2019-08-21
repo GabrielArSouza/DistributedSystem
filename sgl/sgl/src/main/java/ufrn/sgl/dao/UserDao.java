@@ -23,7 +23,7 @@ public class UserDao implements UserDaoInterface {
 			session.getTransaction().commit();
 			transaction.commit();
 		} catch (Exception e) {
-			if (transaction != null) { transaction.rollback(); }
+			//if (transaction != null) { transaction.rollback(); }
 			e.printStackTrace();
 		}
 	}
@@ -31,6 +31,7 @@ public class UserDao implements UserDaoInterface {
 
 	@Override
 	public void create(User user) {
+		System.out.println("message from user dao");
 		this.save(user);
 		
 		Transaction transaction = null;
@@ -52,9 +53,9 @@ public class UserDao implements UserDaoInterface {
 			transaction.commit();
 			
 		} catch (Exception e) {
-			if (transaction != null) {
-				transaction.rollback();
-			}
+//			if (transaction != null) {
+//				transaction.rollback();
+//			}
 			e.printStackTrace();
 		}
 		
