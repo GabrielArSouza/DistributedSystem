@@ -31,9 +31,7 @@ public class Address implements Serializable{
 	@Column(name = "state")
 	private String state;
 	
-	public Address () {
-		
-	}
+	public Address () {	}
 	
 	public Address(
 		String street, 
@@ -76,6 +74,26 @@ public class Address implements Serializable{
 
 	public String getState() {
 		return state;
+	}
+	
+	public void setStreet(String street) {
+		this.street = street;
+	}
+
+	public void setNumber(int number) {
+		this.number = number;
+	}
+
+	public void setNeighborhood(String neighborhood) {
+		this.neighborhood = neighborhood;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public void setState(String state) {
+		this.state = state;
 	}
 
 	public String getAdress () {

@@ -12,7 +12,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Company")
 public class Company implements Serializable{
-
 	
 	private static final long serialVersionUID = -5757486479916397922L;
 	
@@ -32,6 +31,8 @@ public class Company implements Serializable{
 	
 	@Column(name = "typeOfService")
 	private String typeOfService;
+	
+	public Company () {}
 	
 	public Company(
 			String companyName, 
@@ -70,6 +71,23 @@ public class Company implements Serializable{
 		return typeOfService;
 	}
 	
+	
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
+	public void setCnpj(String cnpj) {
+		this.cnpj = cnpj;
+	}
+
+	public void setFantasyName(String fantasyName) {
+		this.fantasyName = fantasyName;
+	}
+
+	public void setTypeOfService(String typeOfService) {
+		this.typeOfService = typeOfService;
+	}
+
 	@Override
 	public String toString () {
 		return "String [id=" + id + ", comapanyName=" + companyName + 

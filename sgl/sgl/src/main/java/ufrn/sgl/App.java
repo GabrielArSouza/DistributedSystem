@@ -4,6 +4,7 @@ import ufrn.sgl.dao.AddressDao;
 import ufrn.sgl.dao.UserDao;
 import ufrn.sgl.model.Address;
 import ufrn.sgl.model.User;
+import ufrn.sgl.util.TokenGenerator;
 
 /**
  * Hello world!
@@ -16,17 +17,19 @@ public class App
         System.out.println( "Hello World!" );
 //        AddressDao addressDao = new AddressDao();
 //        Address address = new Address("merda", 31279, "ave", "N", "RJ");
-//        addressDao.save(address);
-        //addressDao.insert();
+//        addressDao.create(address);
+ 
+//        User user = new User("Prefeitura Municipal de Jucurutu", "PMJuc", "1231383/0001-23", 
+//				 new Address("av José de Alencar", 8392, "Candelária", "Natal", "RN"), 
+//				 "pmnat@gmail.com", "123");
+//        UserDao userDao = new UserDao();
+//        userDao.create(user);
         
+        User user = new User ("pmnat@gmail.com", "123");
+        UserDao dao = new UserDao();
+        User reply = dao.read(user);
+        System.out.println(reply.toString());
         
-        User user = new User("Prefeitura Municipal de Jucurutu", "PMJuc", "1231383/0001-23", 
-				 new Address("av José de Alencar", 8392, "Candelária", "Natal", "RN"), 
-				 "pmnat@gmail.com");
-        UserDao userDao = new UserDao();
-        userDao.save(user);
-        //userDao.insert();
-        		
        
     }
 }

@@ -5,30 +5,35 @@ import javax.persistence.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import ufrn.sgl.dao.interfaces.AddressDaoInterface;
 import ufrn.sgl.model.Address;
 import ufrn.sgl.util.HibernateUtil;
 
-public class AddressDao{
+public class AddressDao implements AddressDaoInterface{
 
 	
-	public void save ( Address address ) {
+	private void save ( Address address ) {
 		
 		Transaction transaction = null;
 
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			
 			transaction = session.beginTransaction();
 			session.saveOrUpdate(address);
 			transaction.commit();
+		
 		} catch (Exception e) {
+		
 			if (transaction != null) { transaction.rollback(); }
-			e.printStackTrace();
+			System.out.println("Error: error to save a address in a Database Server");
 		}
 	}
-	
-	public void insert () {
-		
-        Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+
+	@Override
+	public void create(Address address) {
+		this.save(address);
+		Transaction transaction = null;
+    	try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 
             transaction = session.beginTransaction();
 
@@ -46,9 +51,28 @@ public class AddressDao{
             if (transaction != null) {
                 transaction.rollback();
             }
-            e.printStackTrace();
+            System.out.println("Error: error to create a new Address in the database server");
         }
-    }
+		
+	}
+
+	@Override
+	public Address read(long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void update(Address address) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void delete(Address address) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 
 	
