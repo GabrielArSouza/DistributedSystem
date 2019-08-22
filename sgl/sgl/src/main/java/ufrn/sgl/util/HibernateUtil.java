@@ -29,7 +29,7 @@ public class HibernateUtil {
 	            settings.put(Environment.URL, "jdbc:mysql://database-1.cuhkml51q0qo.us-east-2.rds.amazonaws.com:3306/sgl?useSSL=false");
 	            settings.put(Environment.USER, "admin");
 	            settings.put(Environment.PASS, "12345678");
-	            settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQL5Dialect");
+	            	settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQL5Dialect");
 				    
 	            settings.put(Environment.SHOW_SQL, "false");
 	            settings.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");

@@ -31,7 +31,7 @@ public class UDPClient {
 		DatagramSocket sendSocket = new DatagramSocket();
 		DatagramSocket receiveSocket = new DatagramSocket(Definitions.SERVER_SEND_PORT);
 		IPAddress = InetAddress.getByName("localhost");
-		receiveSocket.setSoTimeout(10000);
+		receiveSocket.setSoTimeout(15000);
 		
 		this.broker = new UDPMessageBroker(sendSocket, receiveSocket);
 		

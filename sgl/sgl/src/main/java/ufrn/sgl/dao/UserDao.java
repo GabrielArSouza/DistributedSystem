@@ -19,11 +19,12 @@ public class UserDao implements UserDaoInterface {
 
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			transaction = session.beginTransaction();
+
 			session.save(user);
-			session.getTransaction().commit();
+
 			transaction.commit();
 		} catch (Exception e) {
-			//if (transaction != null) { transaction.rollback(); }
+			if (transaction != null) { transaction.rollback(); }
 			e.printStackTrace();
 		}
 	}
@@ -40,9 +41,9 @@ public class UserDao implements UserDaoInterface {
 			// start a transaction
 			transaction = session.beginTransaction();
 			
-			String hgl = "INSERT INTO  User( jusrisctionalName, jurisdictionalCode,"
-					+ "cnpj, email, addressId ) SELECT jusrisctionalName, "
-					+ "jurisdictionalCode, cnpj, email, address FROM User";
+			String hgl = "INSERT INTO  User( jurisdictionalName, jurisdictionalCode,"
+					+ " cnpj, email, addressId ) SELECT jusrisctionalName, "
+					+ "jurisdictionalCode, cnpj, email, address.getId() FROM User";
 		
 			Query query = session.createQuery(hgl);
 			int result = query.executeUpdate();
