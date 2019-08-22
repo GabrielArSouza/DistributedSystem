@@ -1,5 +1,7 @@
 package ufrn.sgl.dao;
 
+import java.util.List;
+
 import javax.persistence.Query;
 
 import org.hibernate.Session;
@@ -7,6 +9,7 @@ import org.hibernate.Transaction;
 
 import ufrn.sgl.dao.interfaces.AddressDaoInterface;
 import ufrn.sgl.model.Address;
+import ufrn.sgl.model.User;
 import ufrn.sgl.util.HibernateUtil;
 
 public class AddressDao implements AddressDaoInterface{
@@ -58,8 +61,33 @@ public class AddressDao implements AddressDaoInterface{
 
 	@Override
 	public Address read(long id) {
-		// TODO Auto-generated method stub
-		return null;
+		Transaction transaction = null;
+		Address selected = null;
+		
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			// start a transaction
+			transaction = session.beginTransaction();
+			
+			// get an user object
+	        String hql = " FROM Address A WHERE A.id = :addressId ";
+	        Query query = session.createQuery(hql);
+	        query.setParameter("addressId", id);
+
+	        List<?> results = query.getResultList();
+	        
+	        if (results != null && !results.isEmpty()) 
+	        	selected = (Address) results.get(0);
+          
+	        // commit transaction
+	        transaction.commit();
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+	        if (transaction != null) 
+	        	transaction.rollback();
+		}
+		
+		return selected;
 	}
 
 	@Override

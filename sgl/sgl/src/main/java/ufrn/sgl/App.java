@@ -2,6 +2,7 @@ package ufrn.sgl;
 
 import ufrn.sgl.dao.AddressDao;
 import ufrn.sgl.dao.UserDao;
+import ufrn.sgl.dao.interfaces.AddressDaoInterface;
 import ufrn.sgl.model.Address;
 import ufrn.sgl.model.User;
 import ufrn.sgl.util.TokenGenerator;
@@ -25,9 +26,9 @@ public class App
 //        UserDao userDao = new UserDao();
 //        userDao.create(user);
         
-        User user = new User ("pmnat@gmail.com", "123");
-        UserDao dao = new UserDao();
-        User reply = dao.read(user);
+        //Address address = new Address (1);
+        AddressDaoInterface dao = new AddressDao();
+        Address reply = dao.read(19);
         System.out.println(reply.toString());
         
        

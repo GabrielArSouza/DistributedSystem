@@ -33,6 +33,8 @@ public class Address implements Serializable{
 	
 	public Address () {	}
 	
+	public Address (long id) { this.id = id; }
+	
 	public Address(
 		String street, 
 		int number, 
