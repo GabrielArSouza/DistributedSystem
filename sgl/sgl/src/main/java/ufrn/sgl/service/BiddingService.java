@@ -10,8 +10,8 @@ public class BiddingService implements BiddingServiceInterface{
 	private BiddingDaoInterface dao = new BiddingDao();
 	
 	@Override
-	public void create(Bidding bidding) {
-		dao.create(bidding);
+	public long create(Bidding bidding) {
+		return dao.create(bidding);
 	}
 
 	@Override

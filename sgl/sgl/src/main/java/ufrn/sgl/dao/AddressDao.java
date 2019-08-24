@@ -27,13 +27,14 @@ public class AddressDao implements AddressDaoInterface{
 		
 		} catch (Exception e) {
 		
-			if (transaction != null) { transaction.rollback(); }
+//			if (transaction != null) { transaction.rollback(); }
+			e.printStackTrace();
 			System.out.println("Error: error to save a address in a Database Server");
 		}
 	}
 
 	@Override
-	public void create(Address address) {
+	public long create(Address address) {
 		this.save(address);
 		Transaction transaction = null;
     	try (Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -50,11 +51,15 @@ public class AddressDao implements AddressDaoInterface{
             System.out.println("Rows affected: " + result);
 
             transaction.commit();
+            return address.getId();
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            System.out.println("Error: error to create a new Address in the database server");
+//            if (transaction != null) {
+//                transaction.rollback();
+//            }
+//           
+        	e.printStackTrace();
+        	System.out.println("Error: error to create a new Address in the database server");
+            return -1;
         }
 		
 	}

@@ -29,8 +29,9 @@ public class BiddingDao implements BiddingDaoInterface {
 	}
 
 	@Override
-	public void create(Bidding bidding) {
+	public long create(Bidding bidding) {
 		this.save(bidding);
+		return bidding.getId();
 		//TODO
 		
 	}

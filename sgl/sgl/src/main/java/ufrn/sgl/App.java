@@ -1,8 +1,11 @@
 package ufrn.sgl;
 
+import java.util.List;
+
 import ufrn.sgl.dao.AddressDao;
 import ufrn.sgl.dao.UserDao;
 import ufrn.sgl.dao.interfaces.AddressDaoInterface;
+import ufrn.sgl.dao.interfaces.UserDaoInterface;
 import ufrn.sgl.model.Address;
 import ufrn.sgl.model.User;
 import ufrn.sgl.util.TokenGenerator;
@@ -15,22 +18,35 @@ public class App
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
-//        AddressDao addressDao = new AddressDao();
-//        Address address = new Address("merda", 31279, "ave", "N", "RJ");
-//        addressDao.create(address);
- 
-//        User user = new User("Prefeitura Municipal de Jucurutu", "PMJuc", "1231383/0001-23", 
-//				 new Address("av José de Alencar", 8392, "Candelária", "Natal", "RN"), 
-//				 "pmnat@gmail.com", "123");
-//        UserDao userDao = new UserDao();
-//        userDao.create(user);
+  
+        Address address1 = new Address("av principal", 767, "teste", "Natal", "RN");
+        Address address2 = new Address("av da rosas", 12325, "teste", "Jucurutu", "RN");
+        Address address3 = new Address("av jucurutu ", 1122, "teste", "Currais Novos", "RN");
         
-        //Address address = new Address (1);
-        AddressDaoInterface dao = new AddressDao();
-        Address reply = dao.read(19);
-        System.out.println(reply.toString());
+        User user1 = new User("teste1", "teste1",  "teste1", address1, "teste1", "teste1");
+        User user2 = new User("teste2", "teste2",  "teste2", address2, "teste2", "teste2");
+        User user3 = new User("teste3", "teste3",  "teste3", address3, "teste3", "teste3");
+      
         
+        UserDaoInterface daoUser = new UserDao();
+        daoUser.create(user1);
+        daoUser.create(user2);
+        daoUser.create(user3);
+        
+        List<User> listUser = daoUser.list();
+        for (User u : listUser) System.out.println(u.toString());
+        
+        daoUser.delete(3);
+        user2.setEmail("email atualizado");
+        user2.setId(2);
+        daoUser.update(user2);
+        System.out.println(daoUser.read(2).toString());
+        
+        listUser = daoUser.list();
+        for (User u : listUser) System.out.println(u.toString());
+        
+        //System.out.println(reply.toString());
+        return;
        
     }
 }

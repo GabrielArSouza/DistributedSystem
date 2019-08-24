@@ -45,7 +45,7 @@ public class UDPProtocolServer {
 	}
 	
 	public static Message session (RequestSession msg) { 
-		User user = userService.read(msg.getUser());
+		User user = userService.read(msg.getUser().getId());
 		
 		if (user != null) {
 			String token = TokenGenerator.getToken();

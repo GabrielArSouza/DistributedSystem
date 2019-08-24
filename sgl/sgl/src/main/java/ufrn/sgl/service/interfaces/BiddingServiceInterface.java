@@ -8,7 +8,7 @@ public interface BiddingServiceInterface {
 	 * create a new bidding in the database
 	 * @param bidding the bidding to create
 	 */
-	public void create ( Bidding bidding );
+	public long create ( Bidding bidding );
 	
 	/**
 	 * get a bidding of database by a ID

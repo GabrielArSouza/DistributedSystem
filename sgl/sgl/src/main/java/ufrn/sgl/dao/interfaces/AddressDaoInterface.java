@@ -9,7 +9,7 @@ public interface AddressDaoInterface {
 	 * create a new address in the database
 	 * @param address the address to create
 	 */
-	public void create ( Address address );
+	public long create ( Address address );
 	
 	/**
 	 * get a address of database by a ID

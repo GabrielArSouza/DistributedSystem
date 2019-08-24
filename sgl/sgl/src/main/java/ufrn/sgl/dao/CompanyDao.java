@@ -29,8 +29,9 @@ public class CompanyDao implements CompanyDaoInterface{
 	}
 
 	@Override
-	public void create(Company company) {
+	public long create(Company company) {
 		this.save(company);
+		return company.getId();
 		// TODO
 		
 	}
