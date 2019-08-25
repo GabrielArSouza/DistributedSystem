@@ -27,6 +27,6 @@ public interface BiddingServiceInterface {
 	 * delete the bidding of database
 	 * @param bidding the bidding for delete
 	 */
-	public void delete (Bidding bidding);
+	public void delete (long id);
 	
 }

@@ -1,5 +1,6 @@
 package ufrn.sgl.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -9,6 +10,7 @@ import org.hibernate.Transaction;
 
 import ufrn.sgl.dao.interfaces.AddressDaoInterface;
 import ufrn.sgl.model.Address;
+import ufrn.sgl.model.Bidding;
 import ufrn.sgl.model.User;
 import ufrn.sgl.util.HibernateUtil;
 
@@ -105,6 +107,39 @@ public class AddressDao implements AddressDaoInterface{
 	public void delete(Address address) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	@Override
+	public List<Address> list() {
+		Transaction transaction = null;
+		
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			// start a transaction
+			transaction = session.beginTransaction();
+			
+			// get an user object
+	        String hql = "FROM Bidding";
+	        Query query = session.createQuery(hql);
+
+	        List<?> results = query.getResultList();
+	       
+	        // commit transaction
+	        transaction.commit();
+	        
+	        if ( results != null && !results.isEmpty() ) {
+				@SuppressWarnings("unchecked")
+				ArrayList<Address> results2 = (ArrayList<Address>) results;
+				return results2;
+			}
+	        
+		} catch (Exception e) {
+			e.printStackTrace();
+	        if (transaction != null) 
+	        	transaction.rollback();
+		}
+		return null;
+		
+
 	}
 	
 

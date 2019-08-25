@@ -27,6 +27,6 @@ public interface CompanyServiceInterface {
 	 * delete the company of database
 	 * @param company the company for delete
 	 */
-	public void delete (Company company);
+	public void delete (long id);
 	
 }

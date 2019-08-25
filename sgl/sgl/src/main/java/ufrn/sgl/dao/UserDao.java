@@ -91,9 +91,9 @@ public class UserDao implements UserDaoInterface {
 			// commit transaction
 			transaction.commit();
 		} catch (Exception e) {
-//			if (transaction != null) {
-//				transaction.rollback();
-//			}
+			if (transaction != null) {
+				transaction.rollback();
+			}
 			e.printStackTrace();
 		}
 		

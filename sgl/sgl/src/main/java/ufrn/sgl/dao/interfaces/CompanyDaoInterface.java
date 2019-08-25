@@ -1,6 +1,10 @@
 package ufrn.sgl.dao.interfaces;
 
+import java.util.List;
+
+import ufrn.sgl.model.Bidding;
 import ufrn.sgl.model.Company;
+import ufrn.sgl.model.User;
 
 public interface CompanyDaoInterface {
 
@@ -27,6 +31,11 @@ public interface CompanyDaoInterface {
 	 * delete the company of database
 	 * @param company the company for delete
 	 */
-	public void delete (Company company);
+	public void delete (long id);
 	
+	/**
+	 * list all company
+	 * @return a list of company
+	 */
+	public List<Company> list ();
 }

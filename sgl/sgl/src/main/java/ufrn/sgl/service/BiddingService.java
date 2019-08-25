@@ -25,8 +25,8 @@ public class BiddingService implements BiddingServiceInterface{
 	}
 
 	@Override
-	public void delete(Bidding bidding) {
-		dao.delete(bidding);
+	public void delete(long id) {
+		dao.delete(id);
 	}
 	
 }

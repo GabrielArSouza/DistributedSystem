@@ -25,8 +25,8 @@ public class CompanyService implements CompanyServiceInterface {
 	}
 
 	@Override
-	public void delete(Company company) {
-		dao.delete(company);
+	public void delete(long id) {
+		dao.delete(id);
 	}
 	
 }
