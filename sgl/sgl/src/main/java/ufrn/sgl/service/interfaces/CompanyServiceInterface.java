@@ -29,4 +29,6 @@ public interface CompanyServiceInterface {
 	 */
 	public void delete (long id);
 	
+	public Company read(Company company);
+	
 }

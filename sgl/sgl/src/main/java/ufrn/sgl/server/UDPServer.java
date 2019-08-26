@@ -12,14 +12,13 @@ import java.util.Map;
 
 import ufrn.sgl.messages.Message;
 import ufrn.sgl.messages.protocol.connection.CheckConnection;
-import ufrn.sgl.messages.protocol.connection.ConfirmConnection;
 import ufrn.sgl.messages.protocol.register.RequestRegistration;
 import ufrn.sgl.messages.protocol.session.RequestSession;
-import ufrn.sgl.messages.protocol.session.SuccessfullyLogin;
+import ufrn.sgl.messages.protocol.session.RequestUserSession;
 import ufrn.sgl.model.User;
 import ufrn.sgl.util.Definitions;
 import ufrn.sgl.util.MessageConvert;
-import ufrn.sgl.util.TokenGenerator;
+
 
 public class UDPServer {
 
@@ -28,13 +27,11 @@ public class UDPServer {
 	
 	private DatagramSocket serverSocket;
 	private DatagramSocket sendServerSocket;
-
-	private Map<String, User> activeSessions;
+;
 	
 	public UDPServer() {
 			
 		try {
-			this.activeSessions = new HashMap<String, User>();
 			this.setServerSocket(new DatagramSocket(Definitions.SERVER_RECEIVE_PORT));
 			this.setSendServerSocket(new DatagramSocket());
 			this.msgConvert = MessageConvert.getInstance();
@@ -55,16 +52,17 @@ public class UDPServer {
 			if ( msg.getClass().equals(CheckConnection.class) ) { 
 				Message replyMessage = UDPProtocolServer.connection();
 				sendMessage(replyMessage, msg.getOrigin());
-			} else if (msg.getClass().equals(RequestSession.class)) {
-				RequestSession msgSession = (RequestSession) msg;
-				Message replyMessage = UDPProtocolServer.session( msgSession );
-				activeSessions.put(replyMessage.getMessage(), msgSession.getUser() );
+			
+			} else if (msg.getClass().getSuperclass().equals(RequestSession.class)) {
+				System.out.println("requestSession");
+				Message replyMessage = UDPProtocolServer.session( msg );
 				sendMessage(replyMessage, msg.getOrigin());
+			
 			} else if (msg.getClass().getSuperclass().equals(RequestRegistration.class)) {
-				System.out.println("message from registration");
 				Message replyMessage = UDPProtocolServer.register(msg);
 				sendMessage(replyMessage, msg.getOrigin());
-			}
+			
+			} 
 			
 		}
 	}

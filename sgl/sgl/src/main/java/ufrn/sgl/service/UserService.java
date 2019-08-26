@@ -30,6 +30,11 @@ public class UserService implements UserServiceInterface {
 	public void delete(long id) {
 		dao.delete(id);
 	}
+
+	@Override
+	public User read(User user) {
+		return dao.read(user);
+	}
 	
 	
 }

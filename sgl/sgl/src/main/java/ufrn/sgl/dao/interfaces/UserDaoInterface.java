@@ -20,6 +20,13 @@ public interface UserDaoInterface {
 	public User read (long id);
 	
 	/**
+	 * get a user of database by a user
+	 * @param user the user
+	 * @return the user that match with user
+	 */
+	public User read (User user);
+	
+	/**
 	 * update the user in a database
 	 * @param user the user for update
 	 */

@@ -9,10 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import ufrn.sgl.dao.interfaces.UserDaoInterface;
-import ufrn.sgl.model.Address;
 import ufrn.sgl.model.User;
-import ufrn.sgl.service.AddressService;
-import ufrn.sgl.service.interfaces.AddressServiceInterface;
 import ufrn.sgl.util.HibernateUtil;
 
 public class UserDao implements UserDaoInterface {
@@ -130,6 +127,37 @@ public class UserDao implements UserDaoInterface {
 		return null;
 		
 
+	}
+
+	@Override
+	public User read(User user) {
+		Transaction transaction = null;
+		
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			// start a transaction
+			transaction = session.beginTransaction();
+			
+			// get an user object
+	        String hql = "FROM User U WHERE U.email = :email and U.password = :password";
+	        Query query = session.createQuery(hql);
+	        query.setParameter("email", user.getEmail());
+	        query.setParameter("password", user.getPassword());
+	        
+	        List<?> results = query.getResultList();
+	       
+	        // commit transaction
+	        transaction.commit();
+	        
+	        if (results != null && !results.isEmpty()) {
+               return (User) results.get(0);
+            }else { return null; }
+	        
+		} catch (Exception e) {
+			e.printStackTrace();
+	        if (transaction != null) 
+	        	transaction.rollback();
+		}
+		return null;
 	}
 	
 }

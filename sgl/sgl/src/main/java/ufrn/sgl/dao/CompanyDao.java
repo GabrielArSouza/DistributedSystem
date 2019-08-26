@@ -10,7 +10,6 @@ import org.hibernate.Transaction;
 
 import ufrn.sgl.dao.interfaces.CompanyDaoInterface;
 import ufrn.sgl.model.Company;
-import ufrn.sgl.model.User;
 import ufrn.sgl.util.HibernateUtil;
 
 public class CompanyDao implements CompanyDaoInterface{
@@ -132,6 +131,37 @@ public class CompanyDao implements CompanyDaoInterface{
 		return null;
 		
 
+	}
+
+	@Override
+	public Company read(Company company) {
+		Transaction transaction = null;
+		
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			// start a transaction
+			transaction = session.beginTransaction();
+			
+			// get an user object
+	        String hql = "FROM Company C WHERE C.email = :email and C.password = :password";
+	        Query query = session.createQuery(hql);
+	        query.setParameter("email", company.getEmail());
+	        query.setParameter("password", company.getPassword());
+	        
+	        List<?> results = query.getResultList();
+	       
+	        // commit transaction
+	        transaction.commit();
+	        
+	        if (results != null && !results.isEmpty()) {
+               return (Company) results.get(0);
+            }else { return null; }
+	        
+		} catch (Exception e) {
+			e.printStackTrace();
+	        if (transaction != null) 
+	        	transaction.rollback();
+		}
+		return null;
 	}
 	
 }

@@ -2,9 +2,7 @@ package ufrn.sgl.dao.interfaces;
 
 import java.util.List;
 
-import ufrn.sgl.model.Bidding;
 import ufrn.sgl.model.Company;
-import ufrn.sgl.model.User;
 
 public interface CompanyDaoInterface {
 
@@ -20,6 +18,8 @@ public interface CompanyDaoInterface {
 	 * @return the company that match with ID
 	 */
 	public Company read (long id);
+	
+	public Company read(Company company);
 	
 	/**
 	 * update the company in a database

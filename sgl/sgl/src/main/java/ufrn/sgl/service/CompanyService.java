@@ -29,4 +29,9 @@ public class CompanyService implements CompanyServiceInterface {
 		dao.delete(id);
 	}
 	
+	@Override
+	public Company read(Company company) {
+		return dao.read(company);
+	}
+	
 }

@@ -18,6 +18,13 @@ public interface UserServiceInterface {
 	public User read (long id);
 	
 	/**
+	 * get a user of database by a email and password
+	 * @param user the user to get in database
+	 * @return the user that match with user
+	 */
+	public User read (User user);
+	
+	/**
 	 * update the user in a database
 	 * @param user the user for update
 	 */
