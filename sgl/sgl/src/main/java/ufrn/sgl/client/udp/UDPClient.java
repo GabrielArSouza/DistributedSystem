@@ -8,6 +8,7 @@ import ufrn.sgl.messages.protocol.logout.RequestCompanyLogout;
 import ufrn.sgl.messages.protocol.logout.RequestUserLogout;
 import ufrn.sgl.messages.protocol.logout.SuccessfullyLogout;
 import ufrn.sgl.messages.protocol.register.RegistrationSuccessfully;
+import ufrn.sgl.messages.protocol.register.RequestCompanyRegistration;
 import ufrn.sgl.messages.protocol.register.RequestUserRegistration;
 import ufrn.sgl.messages.protocol.session.RequestCompanySession;
 import ufrn.sgl.messages.protocol.session.RequestUserSession;
@@ -24,12 +25,27 @@ public class UDPClient {
 		this.protocol = new UDPProtocolClient();
 	}
 	
+	/**
+	 * CREATE
+	 */
+	
 	public void createUser ( User user ) {
 		Message response = protocol.requestOperation(new RequestUserRegistration(user));
 		if (response.getClass().equals( RegistrationSuccessfully.class ))
 			System.out.println(successMessage);
 		else System.out.println(response.getMessage());
 	}
+	
+	public void createCompany ( Company company ) {
+		Message response = protocol.requestOperation(new RequestCompanyRegistration(company));
+		if (response.getClass().equals( RegistrationSuccessfully.class ))
+			System.out.println(successMessage);
+		else System.out.println(response.getMessage());
+	}
+	
+	/**
+	 * LOGIN
+	 */
 	
 	public String userLogin ( User user ) {
 		Message response = protocol.requestOperation(new RequestUserSession(user));
@@ -40,13 +56,6 @@ public class UDPClient {
 		} else return response.getMessage();
 	}
 	
-	public void userLogout ( String token ) {
-		Message response = protocol.requestOperation(new RequestUserLogout(token));
-		if (response.getClass().equals( SuccessfullyLogout.class ))
-			System.out.println("Logout Successfully");
-		else System.out.println(response.getMessage());
-	}
-	
 	public String companyLogin ( Company company ) {
 		Message response = protocol.requestOperation(new RequestCompanySession(company));
 		if (response.getClass().equals( SuccessfullySession.class )) {
@@ -55,6 +64,18 @@ public class UDPClient {
 			return session.getMessage();
 		} else return response.getMessage();
 	}
+	
+	/**
+	 * LOGOUT
+	 */
+	
+	public void userLogout ( String token ) {
+		Message response = protocol.requestOperation(new RequestUserLogout(token));
+		if (response.getClass().equals( SuccessfullyLogout.class ))
+			System.out.println("Logout Successfully");
+		else System.out.println(response.getMessage());
+	}
+	
 	
 	public void companyLogout ( String token ) {
 		Message response = protocol.requestOperation(new RequestCompanyLogout(token));

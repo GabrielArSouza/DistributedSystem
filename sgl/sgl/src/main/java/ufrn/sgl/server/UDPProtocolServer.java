@@ -9,6 +9,7 @@ import ufrn.sgl.messages.protocol.logout.SuccessfullyLogout;
 import ufrn.sgl.messages.protocol.register.RegistrationFailed;
 import ufrn.sgl.messages.protocol.register.RegistrationSuccessfully;
 import ufrn.sgl.messages.protocol.register.RequestBiddingRegistration;
+import ufrn.sgl.messages.protocol.register.RequestCompanyRegistration;
 import ufrn.sgl.messages.protocol.register.RequestUserRegistration;
 import ufrn.sgl.messages.protocol.session.FailSession;
 import ufrn.sgl.messages.protocol.session.RequestCompanySession;
@@ -49,13 +50,18 @@ public class UDPProtocolServer {
 			userService.create(msgUser.getUser());
 			return new RegistrationSuccessfully();
 		} 
-		else if   (msg.getClass().equals(RequestBiddingRegistration.class)) {
+		else if (msg.getClass().equals(RequestBiddingRegistration.class)) {
 			RequestBiddingRegistration msgBidding = (RequestBiddingRegistration) msg;
 			if (userSessionService.read(msgBidding.getToken()) != null) {
 				biddingService.create(msgBidding.getBidding());
 				return new RegistrationSuccessfully();
 			}else {return new RegistrationFailed();}
-		}		
+		}	
+		else if (msg.getClass().equals(RequestCompanyRegistration.class)) {
+			RequestCompanyRegistration msgCompany = (RequestCompanyRegistration) msg;
+			companyService.create(msgCompany.getCompany());
+			return new RegistrationSuccessfully();
+		}
 		else { return new RegistrationFailed(); }
 
 	}
@@ -80,9 +86,9 @@ public class UDPProtocolServer {
 			Company company = companyService.read(msgCompany.getCompany());
 			if (company != null) {
 				String token = TokenGenerator.getToken();
+				companySessionService.create(new CompanySession(company, token));
 				return new SuccessfullySession(token);
-			}
-				
+			}	
 		}
 		
 		return new FailSession();

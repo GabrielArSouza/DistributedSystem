@@ -5,6 +5,7 @@ import java.net.UnknownHostException;
 
 import ufrn.sgl.client.udp.UDPClient;
 import ufrn.sgl.model.Address;
+import ufrn.sgl.model.Company;
 import ufrn.sgl.model.User;
 
 /**
@@ -33,13 +34,16 @@ public class App
     			new Address("teste5", 5, "teste5", "teste5", "teste5"),
     			"teste5", "teste5");
     	
+    	Company company = new Company("teste5", "", "", "", 
+    			new Address("teste5", 5, "teste5", "teste5", "teste5"), "teste5", "teste5");
+    	
     	try {
 			UDPClient client = new UDPClient();
-			client.createUser(user);
-			Thread.sleep(5000);
-			String token = client.userLogin(user);
-			Thread.sleep(5000);
-			client.userLogout(token);
+			client.createCompany(company);
+			Thread.sleep(2000);
+			String token = client.companyLogin(company);
+			Thread.sleep(2000);
+			client.companyLogout(token);
 		} catch (SocketException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
