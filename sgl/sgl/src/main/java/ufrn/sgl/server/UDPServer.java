@@ -7,15 +7,12 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
-import java.util.HashMap;
-import java.util.Map;
 
 import ufrn.sgl.messages.Message;
 import ufrn.sgl.messages.protocol.connection.CheckConnection;
 import ufrn.sgl.messages.protocol.logout.RequestLogout;
 import ufrn.sgl.messages.protocol.register.RequestRegistration;
 import ufrn.sgl.messages.protocol.session.RequestSession;
-import ufrn.sgl.messages.protocol.session.RequestUserSession;
 import ufrn.sgl.model.User;
 import ufrn.sgl.service.UserService;
 import ufrn.sgl.service.interfaces.UserServiceInterface;

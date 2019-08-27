@@ -72,7 +72,6 @@ public class UDPProtocolServer {
 			if (user != null) {
 				String token = TokenGenerator.getToken();
 				userSessionService.create(new UserSession(user, token));
-				System.out.println("Opa");
 				return new SuccessfullySession(token);
 			}
 		
