@@ -15,7 +15,7 @@ public interface UserSessionDaoInterface {
 	 * @param id the Company session ID
 	 * @return the company that match with ID
 	 */
-	public UserSession read ( UserSession session);
+	public UserSession read ( String token);
 	
 	/**
 	 * update the company session in a database

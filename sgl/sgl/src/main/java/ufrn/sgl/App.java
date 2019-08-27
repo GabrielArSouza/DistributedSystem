@@ -1,14 +1,11 @@
 package ufrn.sgl;
 
-import java.util.List;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 
-import ufrn.sgl.dao.AddressDao;
-import ufrn.sgl.dao.UserDao;
-import ufrn.sgl.dao.interfaces.AddressDaoInterface;
-import ufrn.sgl.dao.interfaces.UserDaoInterface;
+import ufrn.sgl.client.udp.UDPClient;
 import ufrn.sgl.model.Address;
 import ufrn.sgl.model.User;
-import ufrn.sgl.util.TokenGenerator;
 
 /**
  * Hello world!
@@ -18,35 +15,43 @@ public class App
 {
     public static void main( String[] args )
     {
-  
-        Address address1 = new Address("av principal", 767, "teste", "Natal", "RN");
-        Address address2 = new Address("av da rosas", 12325, "teste", "Jucurutu", "RN");
-        Address address3 = new Address("av jucurutu ", 1122, "teste", "Currais Novos", "RN");
-        
-        User user1 = new User("teste1", "teste1",  "teste1", address1, "teste1", "teste1");
-        User user2 = new User("teste2", "teste2",  "teste2", address2, "teste2", "teste2");
-        User user3 = new User("teste3", "teste3",  "teste3", address3, "teste3", "teste3");
-      
-        
-        UserDaoInterface daoUser = new UserDao();
-        daoUser.create(user1);
-        daoUser.create(user2);
-        daoUser.create(user3);
-        
-        List<User> listUser = daoUser.list();
-        for (User u : listUser) System.out.println(u.toString());
-        
-        daoUser.delete(3);
-        user2.setEmail("email atualizado");
-        user2.setId(2);
-        daoUser.update(user2);
-        System.out.println(daoUser.read(2).toString());
-        
-        listUser = daoUser.list();
-        for (User u : listUser) System.out.println(u.toString());
-        
-        //System.out.println(reply.toString());
-        return;
-       
+    	/**
+    	 * 1 - Login como Usuário
+    	 * 2 - Login como Empresa
+    	 * 3 - Cadastro de Usuário
+    	 * 4 - Cadastro de Empresa
+    	 * 5 - (User) CRUD de Licitação 
+    	 * 6 - (User) Listar todas as licitações cadastradas
+    	 * 7 - (Company) Listar Licitações disponíveis
+    	 * 8 - (Company) CRUD para oferta em Licitação
+    	 * 9 - Logout user
+    	 * 10 - Logout company
+    	 */
+    	
+    	
+    	User user = new User("teste5", "teste5", "teste5",
+    			new Address("teste5", 5, "teste5", "teste5", "teste5"),
+    			"teste5", "teste5");
+    	
+    	try {
+			UDPClient client = new UDPClient();
+			client.createUser(user);
+			Thread.sleep(5000);
+			String token = client.userLogin(user);
+			Thread.sleep(5000);
+			client.useLogout(token);
+		} catch (SocketException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	
+    	
     }
 }

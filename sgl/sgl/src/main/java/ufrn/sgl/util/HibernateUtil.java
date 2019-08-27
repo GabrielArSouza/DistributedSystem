@@ -13,6 +13,7 @@ import ufrn.sgl.model.Address;
 import ufrn.sgl.model.Bidding;
 import ufrn.sgl.model.Company;
 import ufrn.sgl.model.CompanySession;
+import ufrn.sgl.model.Tender;
 import ufrn.sgl.model.User;
 import ufrn.sgl.model.UserSession;
 
@@ -45,6 +46,7 @@ public class HibernateUtil {
 	            configuration.addAnnotatedClass(Bidding.class);
 	            configuration.addAnnotatedClass(UserSession.class);
 	            configuration.addAnnotatedClass(CompanySession.class);
+	            configuration.addAnnotatedClass(Tender.class);
 	            
 	            
 	            ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()

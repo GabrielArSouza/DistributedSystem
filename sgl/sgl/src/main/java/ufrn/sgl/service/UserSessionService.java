@@ -15,8 +15,8 @@ public class UserSessionService implements UserSessionServiceInterface {
 	}
 
 	@Override
-	public UserSession read(UserSession session) {
-		return dao.read(session);
+	public UserSession read(String token) {
+		return dao.read(token);
 	}
 
 	@Override

@@ -12,10 +12,13 @@ import java.util.Map;
 
 import ufrn.sgl.messages.Message;
 import ufrn.sgl.messages.protocol.connection.CheckConnection;
+import ufrn.sgl.messages.protocol.logout.RequestLogout;
 import ufrn.sgl.messages.protocol.register.RequestRegistration;
 import ufrn.sgl.messages.protocol.session.RequestSession;
 import ufrn.sgl.messages.protocol.session.RequestUserSession;
 import ufrn.sgl.model.User;
+import ufrn.sgl.service.UserService;
+import ufrn.sgl.service.interfaces.UserServiceInterface;
 import ufrn.sgl.util.Definitions;
 import ufrn.sgl.util.MessageConvert;
 
@@ -27,7 +30,7 @@ public class UDPServer {
 	
 	private DatagramSocket serverSocket;
 	private DatagramSocket sendServerSocket;
-;
+	private static final UserServiceInterface service = new UserService();
 	
 	public UDPServer() {
 			
@@ -40,7 +43,19 @@ public class UDPServer {
 			System.out.println("ERROR - Failed to initialize server on port " + Definitions.SERVER_RECEIVE_PORT);
 			e1.printStackTrace();
 		}
+		
+		this.startDatabase();
 	
+	}
+	
+	private void startDatabase () {
+		// Start database connection
+		System.out.println("Starting the databse connection...");
+		User user = new User("init", "init");
+		service.create(user);
+		user = service.read(user);
+		service.delete(user.getId());
+		System.out.println("Done!");
 	}
 	
 	public void run () throws ClassNotFoundException, IOException {
@@ -51,23 +66,28 @@ public class UDPServer {
 			// check messages
 			if ( msg.getClass().equals(CheckConnection.class) ) { 
 				Message replyMessage = UDPProtocolServer.connection();
-				sendMessage(replyMessage, msg.getOrigin());
+				sendMessage(replyMessage, msg.getOrigin(), Definitions.PING_PORT);
 			
 			} else if (msg.getClass().getSuperclass().equals(RequestSession.class)) {
 				System.out.println("requestSession");
 				Message replyMessage = UDPProtocolServer.session( msg );
-				sendMessage(replyMessage, msg.getOrigin());
+				sendMessage(replyMessage, msg.getOrigin(), Definitions.SERVER_SEND_PORT);
 			
+			} else if (msg.getClass().getSuperclass().equals(RequestLogout.class)) {
+				System.out.println("request logout");
+				Message replyMessage = UDPProtocolServer.logout( msg );
+				sendMessage(replyMessage, msg.getOrigin(), Definitions.SERVER_SEND_PORT);
+		
 			} else if (msg.getClass().getSuperclass().equals(RequestRegistration.class)) {
 				Message replyMessage = UDPProtocolServer.register(msg);
-				sendMessage(replyMessage, msg.getOrigin());
+				sendMessage(replyMessage, msg.getOrigin(), Definitions.SERVER_SEND_PORT);
 			
 			} 
 			
 		}
 	}
 	
-	private void sendMessage ( Message msg, InetAddress address ) throws IOException {
+	private void sendMessage ( Message msg, InetAddress address, int port ) throws IOException {
 		
 		
 		// convert message to a byte array
@@ -75,10 +95,10 @@ public class UDPServer {
 		
 		DatagramPacket sendPackage = new DatagramPacket(
 				msgToSend, msgToSend.length,
-				address, Definitions.SERVER_SEND_PORT);
+				address, port );
 		sendServerSocket.send(sendPackage);
 		
-		System.out.println("sending message to" + address);
+		//System.out.println("sending message to" + address);
 	}
 	
 	private Message receiveMessage() throws IOException, ClassNotFoundException {
@@ -97,7 +117,7 @@ public class UDPServer {
 		Message msg = (Message) iStream.readObject();
 		msg.setOrigin(receivePacket.getAddress());
 		iStream.close();
-		System.out.println(msg.getMessage() + "\nFROM: " + msg.getOrigin());
+		//System.out.println(msg.getMessage() + "\nFROM: " + msg.getOrigin());
 		return msg;
 	}
 	

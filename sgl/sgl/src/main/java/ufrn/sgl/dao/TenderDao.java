@@ -1,5 +1,6 @@
 package ufrn.sgl.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -7,22 +8,23 @@ import javax.persistence.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import ufrn.sgl.dao.interfaces.UserSessionDaoInterface;
-import ufrn.sgl.model.UserSession;
+import ufrn.sgl.dao.interfaces.TenderDaoInterface;
+import ufrn.sgl.model.Tender;
+import ufrn.sgl.model.User;
 import ufrn.sgl.util.HibernateUtil;
 
-public class UserSessionDao implements UserSessionDaoInterface{
+public class TenderDao implements TenderDaoInterface {
 
 	@Override
-	public long create(UserSession userSession) {
+	public long create(Tender tender) {
 		Transaction transaction = null;
 
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			
 			transaction = session.beginTransaction();
-			session.save(userSession);
+			session.save(tender);
 			transaction.commit();
-			return userSession.getId();
+			return tender.getId();
 			
 		} catch (Exception e) {
 			if (transaction != null) { transaction.rollback(); }
@@ -32,44 +34,14 @@ public class UserSessionDao implements UserSessionDaoInterface{
 	}
 
 	@Override
-	public UserSession read(String token) {
+	public Tender read(long id) {
 		Transaction transaction = null;
-		
+		Tender tender = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			// start a transaction
 			transaction = session.beginTransaction();
-			
-			// get an user object
-	        String hql = "FROM UserSession U WHERE U.token = :token";
-	        Query query = session.createQuery(hql);
-	        query.setParameter("token", token);
-
-	        List<?> results = query.getResultList();
-	       
-	        // commit transaction
-	        transaction.commit();
-	        
-	        if (results != null && !results.isEmpty()) {
-	               return (UserSession) results.get(0);
-	        }else { return null; }
-	        
-		} catch (Exception e) {
-			e.printStackTrace();
-	        if (transaction != null) 
-	        	transaction.rollback();
-		}
-		return null;
-		
-	}
-
-	@Override
-	public void update(UserSession userSession) {
-		Transaction transaction = null;
-		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-			// start a transaction
-			transaction = session.beginTransaction();
-			// save the student object
-			session.update(userSession);
+			// get an instructor object
+			tender = session.get(Tender.class, id);
 			// commit transaction
 			transaction.commit();
 		} catch (Exception e) {
@@ -78,7 +50,25 @@ public class UserSessionDao implements UserSessionDaoInterface{
 			}
 			e.printStackTrace();
 		}
-		
+		return tender;
+	}
+
+	@Override
+	public void update(Tender tender) {
+		Transaction transaction = null;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			// start a transaction
+			transaction = session.beginTransaction();
+			// save the student object
+			session.update(tender);
+			// commit transaction
+			transaction.commit();
+		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -89,10 +79,10 @@ public class UserSessionDao implements UserSessionDaoInterface{
 			transaction = session.beginTransaction();
 
 			// Delete a instructor object
-			UserSession userSession = session.get(UserSession.class, id);
-			if (userSession != null) {
-				session.delete(userSession);
-				System.out.println("User is deleted");
+			Tender tender = session.get(Tender.class, id);
+			if (tender != null) {
+				session.delete(tender);
+				System.out.println("tender is deleted");
 			}
 
 			// commit transaction
@@ -103,6 +93,40 @@ public class UserSessionDao implements UserSessionDaoInterface{
 			}
 			e.printStackTrace();
 		}
+		
 	}
 
+	@Override
+	public List<Tender> list() {
+		Transaction transaction = null;
+		
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			// start a transaction
+			transaction = session.beginTransaction();
+			
+			// get an user object
+	        String hql = "FROM Tender";
+	        Query query = session.createQuery(hql);
+
+	        List<?> results = query.getResultList();
+	       
+	        // commit transaction
+	        transaction.commit();
+	        
+	        if ( results != null && !results.isEmpty() ) {
+				@SuppressWarnings("unchecked")
+				ArrayList<Tender> results2 = (ArrayList<Tender>) results;
+				return results2;
+			}
+	        
+		} catch (Exception e) {
+			e.printStackTrace();
+	        if (transaction != null) 
+	        	transaction.rollback();
+		}
+		return null;
+	}
+
+	
+	
 }

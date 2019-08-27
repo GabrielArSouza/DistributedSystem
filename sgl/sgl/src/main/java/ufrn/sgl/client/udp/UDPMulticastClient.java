@@ -1,4 +1,4 @@
-package ufrn.sgl.client;
+package ufrn.sgl.client.udp;
 
 import java.io.IOException;
 import java.net.DatagramPacket;

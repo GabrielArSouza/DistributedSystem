@@ -1,20 +1,16 @@
 package ufrn.sgl.messages.protocol.logout;
 
-import ufrn.sgl.messages.Message;
-import ufrn.sgl.model.Company;
+import ufrn.sgl.model.CompanySession;
 
-public class RequestCompanyLogout extends Message{
+public class RequestCompanyLogout extends RequestLogout{
 
-	private static final long serialVersionUID = -5141226179223439120L;
+	private static final long serialVersionUID = -7201561474696139018L;
 
-	private final Company company;
-	private final String token;
+	private final CompanySession session;
 	
-	public RequestCompanyLogout(Company company, String token) {
-		super();
-		this.company = company;
-		this.token = token;
-	}	
+	public RequestCompanyLogout(CompanySession session) {
+		this.session = session;
+	}
 	
 	@Override
 	public String getMessage() {
@@ -22,12 +18,8 @@ public class RequestCompanyLogout extends Message{
 		return null;
 	}
 
-	public Company getCompany() {
-		return company;
-	}
-
-	public String getToken() {
-		return token;
+	public CompanySession getSession() {
+		return session;
 	}
 	
 	

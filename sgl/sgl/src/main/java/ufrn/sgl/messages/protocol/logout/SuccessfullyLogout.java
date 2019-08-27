@@ -2,9 +2,9 @@ package ufrn.sgl.messages.protocol.logout;
 
 import ufrn.sgl.messages.Message;
 
-public class LogoutFailed extends Message{
+public class SuccessfullyLogout extends Message{
 
-	private static final long serialVersionUID = -5190365757966092847L;
+	private static final long serialVersionUID = -3358781251050396261L;
 
 	@Override
 	public String getMessage() {

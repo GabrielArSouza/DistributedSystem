@@ -4,6 +4,7 @@ public class Definitions {
 
 	public static final int SERVER_SEND_PORT = 9993;
 	public static final int SERVER_RECEIVE_PORT = 9003;
+	public static final int PING_PORT = 9013;
 	
 	
 	public static final String[] SERVERS = {
