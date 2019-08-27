@@ -39,7 +39,7 @@ public class App
 			Thread.sleep(5000);
 			String token = client.userLogin(user);
 			Thread.sleep(5000);
-			client.useLogout(token);
+			client.userLogout(token);
 		} catch (SocketException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
