@@ -108,12 +108,12 @@ public class UDPProtocolServer {
 			RequestCompanyLogout msgLogout = (RequestCompanyLogout) msg;
 			CompanySession companySession = companySessionService.read(msgLogout.getSession());
 			if (companySession != null) {
-				userSessionService.delete(companySession.getId());
+				companySessionService.delete(companySession.getId());
 				return new SuccessfullyLogout();
 			}
 		}
-		return new FailLogout();
 		
+		return new FailLogout();	
 	}
 	
 }

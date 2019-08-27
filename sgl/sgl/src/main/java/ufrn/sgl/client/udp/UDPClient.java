@@ -8,11 +8,13 @@ import ufrn.sgl.messages.protocol.logout.RequestCompanyLogout;
 import ufrn.sgl.messages.protocol.logout.RequestUserLogout;
 import ufrn.sgl.messages.protocol.logout.SuccessfullyLogout;
 import ufrn.sgl.messages.protocol.register.RegistrationSuccessfully;
+import ufrn.sgl.messages.protocol.register.RequestBiddingRegistration;
 import ufrn.sgl.messages.protocol.register.RequestCompanyRegistration;
 import ufrn.sgl.messages.protocol.register.RequestUserRegistration;
 import ufrn.sgl.messages.protocol.session.RequestCompanySession;
 import ufrn.sgl.messages.protocol.session.RequestUserSession;
 import ufrn.sgl.messages.protocol.session.SuccessfullySession;
+import ufrn.sgl.model.Bidding;
 import ufrn.sgl.model.Company;
 import ufrn.sgl.model.User;
 
@@ -38,6 +40,14 @@ public class UDPClient {
 	
 	public void createCompany ( Company company ) {
 		Message response = protocol.requestOperation(new RequestCompanyRegistration(company));
+		if (response.getClass().equals( RegistrationSuccessfully.class ))
+			System.out.println(successMessage);
+		else System.out.println(response.getMessage());
+	}
+	
+	public void createBidding ( Bidding bidding, User user, String token ) {
+		Message response = protocol.requestOperation(
+				new RequestBiddingRegistration(bidding,	user, token));
 		if (response.getClass().equals( RegistrationSuccessfully.class ))
 			System.out.println(successMessage);
 		else System.out.println(response.getMessage());

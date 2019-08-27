@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Embeddable
-@Table(name = "CompanySessions")
+@Table(name = "CompanySession")
 public class CompanySession {
 
 	@Id
