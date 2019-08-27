@@ -10,15 +10,15 @@ public class UserService implements UserServiceInterface {
 	private UserDaoInterface dao = new UserDao();
 	
 	@Override
-	public void create(User user) {
+	public long create(User user) {
 		System.out.println("message from user service");
-		dao.create(user);
+		return dao.create(user);
 	}
 
 	@Override
-	public User read(User user) {
+	public User read(long id) {
 		//TODO exceptions
-		return dao.read(user);
+		return dao.read(id);
 	}
 
 	@Override
@@ -27,8 +27,13 @@ public class UserService implements UserServiceInterface {
 	}
 
 	@Override
-	public void delete(User user) {
-		dao.delete(user);
+	public void delete(long id) {
+		dao.delete(id);
+	}
+
+	@Override
+	public User read(User user) {
+		return dao.read(user);
 	}
 	
 	

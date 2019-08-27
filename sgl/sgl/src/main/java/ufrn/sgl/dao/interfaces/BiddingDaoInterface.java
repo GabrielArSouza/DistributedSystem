@@ -1,6 +1,9 @@
 package ufrn.sgl.dao.interfaces;
 
+import java.util.List;
+
 import ufrn.sgl.model.Bidding;
+import ufrn.sgl.model.Company;
 
 public interface BiddingDaoInterface {
 
@@ -8,7 +11,7 @@ public interface BiddingDaoInterface {
 	 * create a new bidding in the database
 	 * @param bidding the bidding to create
 	 */
-	public void create ( Bidding bidding );
+	public long create ( Bidding bidding );
 	
 	/**
 	 * get a bidding of database by a ID
@@ -27,6 +30,12 @@ public interface BiddingDaoInterface {
 	 * delete the bidding of database
 	 * @param bidding the bidding for delete
 	 */
-	public void delete (Bidding bidding);
+	public void delete (long id);
+	
+	/**
+	 * list all bidding
+	 * @return a list of bidding
+	 */
+	public List<Bidding> list ();
 	
 }

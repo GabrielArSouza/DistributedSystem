@@ -8,7 +8,7 @@ public interface CompanyServiceInterface {
 	 * create a new company in the database
 	 * @param company the company to create
 	 */
-	public void create ( Company company );
+	public long create ( Company company );
 	
 	/**
 	 * get a company of database by a ID
@@ -27,6 +27,8 @@ public interface CompanyServiceInterface {
 	 * delete the company of database
 	 * @param company the company for delete
 	 */
-	public void delete (Company company);
+	public void delete (long id);
+	
+	public Company read(Company company);
 	
 }

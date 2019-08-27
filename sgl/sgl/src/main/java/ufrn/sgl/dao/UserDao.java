@@ -1,5 +1,6 @@
 package ufrn.sgl.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -12,97 +13,151 @@ import ufrn.sgl.model.User;
 import ufrn.sgl.util.HibernateUtil;
 
 public class UserDao implements UserDaoInterface {
-
-	private void save ( User user ) {
+	
+	@Override
+	public long create ( User user ) {
 		
 		Transaction transaction = null;
 
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			
 			transaction = session.beginTransaction();
-
 			session.save(user);
-
 			transaction.commit();
+			return user.getId();
+			
 		} catch (Exception e) {
 			if (transaction != null) { transaction.rollback(); }
 			e.printStackTrace();
+			return -1;
 		}
 	}
 	
-
 	@Override
-	public void create(User user) {
-		System.out.println("message from user dao");
-		this.save(user);
-		
+	public User read(long id) {
 		Transaction transaction = null;
-		try ( Session session = HibernateUtil.getSessionFactory().openSession() ){
-			
+		User userGet = null;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			// start a transaction
 			transaction = session.beginTransaction();
-			
-			String hgl = "INSERT INTO  User( jurisdictionalName, jurisdictionalCode,"
-					+ " cnpj, email, addressId ) SELECT jusrisctionalName, "
-					+ "jurisdictionalCode, cnpj, email, address.getId() FROM User";
-		
-			Query query = session.createQuery(hgl);
-			int result = query.executeUpdate();
-			
-			System.out.println("Rows affected: " + result);
-			
-			// Commit transaction
+			// get an instructor object
+			userGet = session.get(User.class, id);
+			// commit transaction
 			transaction.commit();
-			
 		} catch (Exception e) {
-//			if (transaction != null) {
-//				transaction.rollback();
-//			}
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			e.printStackTrace();
+		}
+		return userGet;
+	}
+	
+	@Override
+	public void update(User user) {
+		Transaction transaction = null;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			// start a transaction
+			transaction = session.beginTransaction();
+			// save the student object
+			session.update(user);
+			// commit transaction
+			transaction.commit();
+		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void delete(long id) {
+		Transaction transaction = null;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			// start a transaction
+			transaction = session.beginTransaction();
+
+			// Delete a instructor object
+			User user = session.get(User.class, id);
+			if (user != null) {
+				session.delete(user);
+				System.out.println("User is deleted");
+			}
+
+			// commit transaction
+			transaction.commit();
+		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
 			e.printStackTrace();
 		}
 		
 	}
 
 	@Override
-	public User read(User user) {
+	public List<User> list() {
 		Transaction transaction = null;
-		User selected = null;
 		
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			// start a transaction
 			transaction = session.beginTransaction();
 			
 			// get an user object
-	        String hql = " FROM User U WHERE U.email = :userEmail and U.password = :userPassword";
+	        String hql = "FROM User";
 	        Query query = session.createQuery(hql);
-	        query.setParameter("userEmail", user.getEmail());
-	        query.setParameter("userPassword", user.getPassword());
+
 	        List<?> results = query.getResultList();
-	        
-	        if (results != null && !results.isEmpty()) 
-	        	selected = (User) results.get(0);
-          
+	       
 	        // commit transaction
 	        transaction.commit();
-		
+	        
+	        if ( results != null && !results.isEmpty() ) {
+				@SuppressWarnings("unchecked")
+				ArrayList<User> results2 = (ArrayList<User>) results;
+				return results2;
+			}
+	        
 		} catch (Exception e) {
 			e.printStackTrace();
 	        if (transaction != null) 
 	        	transaction.rollback();
 		}
+		return null;
 		
-		return selected;
-	}
-	
-	@Override
-	public void update(User user) {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-	public void delete(User user) {
-		// TODO Auto-generated method stub
+	public User read(User user) {
+		Transaction transaction = null;
 		
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			// start a transaction
+			transaction = session.beginTransaction();
+			
+			// get an user object
+	        String hql = "FROM User U WHERE U.email = :email and U.password = :password";
+	        Query query = session.createQuery(hql);
+	        query.setParameter("email", user.getEmail());
+	        query.setParameter("password", user.getPassword());
+	        
+	        List<?> results = query.getResultList();
+	       
+	        // commit transaction
+	        transaction.commit();
+	        
+	        if (results != null && !results.isEmpty()) {
+               return (User) results.get(0);
+            }else { return null; }
+	        
+		} catch (Exception e) {
+			e.printStackTrace();
+	        if (transaction != null) 
+	        	transaction.rollback();
+		}
+		return null;
 	}
 	
 }

@@ -30,7 +30,7 @@ public class PingConnection extends Thread{
 			this.attemps = 0;
 			this.idServer = idServer; 
 			this.sendSocket = new DatagramSocket();
-			this.receiveSocket = new DatagramSocket(Definitions.SERVER_SEND_PORT);
+			this.receiveSocket = new DatagramSocket(Definitions.PING_PORT);
 
 			this.IPAddress = InetAddress.getByName(Definitions.SERVERS[this.idServer]);
 			this.isRunning = true;
@@ -45,7 +45,7 @@ public class PingConnection extends Thread{
 			try {
 				this.sendMessage();
 				Message m = this.receiveMessage();
-				System.out.println(m.getClass());
+				//System.out.println(m.getClass());
 				Thread.sleep(1000);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -78,7 +78,7 @@ public class PingConnection extends Thread{
 		DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length,
 				IPAddress, Definitions.SERVER_RECEIVE_PORT);
 		sendSocket.send(sendPacket);
-		System.out.println("Sending mensage to " + IPAddress + ":" +Definitions.SERVER_RECEIVE_PORT);
+		//System.out.println("Sending mensage to " + IPAddress + ":" +Definitions.SERVER_RECEIVE_PORT);
 	}
 	
 	private Message receiveMessage () throws IOException, ClassNotFoundException, ConnectionFailureException {

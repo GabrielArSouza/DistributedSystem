@@ -12,7 +12,10 @@ import org.hibernate.service.ServiceRegistry;
 import ufrn.sgl.model.Address;
 import ufrn.sgl.model.Bidding;
 import ufrn.sgl.model.Company;
+import ufrn.sgl.model.CompanySession;
+import ufrn.sgl.model.Tender;
 import ufrn.sgl.model.User;
+import ufrn.sgl.model.UserSession;
 
 public class HibernateUtil {
 	private static SessionFactory sessionFactory;
@@ -29,9 +32,9 @@ public class HibernateUtil {
 	            settings.put(Environment.URL, "jdbc:mysql://database-1.cuhkml51q0qo.us-east-2.rds.amazonaws.com:3306/sgl?useSSL=false");
 	            settings.put(Environment.USER, "admin");
 	            settings.put(Environment.PASS, "12345678");
-	            	settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQL5Dialect");
+	            settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQL5Dialect");
 				    
-	            settings.put(Environment.SHOW_SQL, "false");
+	            settings.put(Environment.SHOW_SQL, "true");
 	            settings.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
 	            settings.put(Environment.HBM2DDL_AUTO, "update");
 	            
@@ -41,6 +44,9 @@ public class HibernateUtil {
 	            configuration.addAnnotatedClass(User.class);
 	            configuration.addAnnotatedClass(Company.class);
 	            configuration.addAnnotatedClass(Bidding.class);
+	            configuration.addAnnotatedClass(UserSession.class);
+	            configuration.addAnnotatedClass(CompanySession.class);
+	            configuration.addAnnotatedClass(Tender.class);
 	            
 	            
 	            ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()

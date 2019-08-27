@@ -1,0 +1,86 @@
+package ufrn.sgl.client.udp;
+
+import java.io.IOException;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+
+import ufrn.sgl.Exceptions.ConnectionFailureException;
+import ufrn.sgl.messages.Message;
+import ufrn.sgl.messages.OperationFailed;
+import ufrn.sgl.messages.protocol.session.FailSession;
+import ufrn.sgl.messages.protocol.session.SuccessfullySession;
+import ufrn.sgl.util.Definitions;
+import ufrn.sgl.util.PingConnection;
+import ufrn.sgl.util.UDPMessageBroker;
+
+public class UDPProtocolClient {
+
+	private final UDPMessageBroker broker;
+	private final int maxAttemps = 3;
+	private final PingConnection ping;
+	
+	public UDPProtocolClient () throws SocketException, UnknownHostException {
+		
+		DatagramSocket sendSocket = new DatagramSocket();
+		DatagramSocket receiveSocket = new DatagramSocket(Definitions.SERVER_SEND_PORT);
+		receiveSocket.setSoTimeout(5000);
+		
+		this.broker = new UDPMessageBroker(sendSocket, receiveSocket);
+		this.ping = new PingConnection(0);
+		ping.start();
+	}
+	
+	public Message requestOperation ( Message msg ) {
+		int attemps = 0;
+		
+		while ( attemps < maxAttemps ) {
+			try {
+				broker.sendMessage(	msg, getActualIP(), Definitions.SERVER_RECEIVE_PORT);
+				Message m = broker.receiveMessage();
+				return m; 
+			} catch (ConnectionFailureException e) {
+				System.out.println("Timeout: " + attemps);
+				attemps++;
+				continue;
+			} catch (UnknownHostException e) {
+				return new OperationFailed("Server configuration error - Unknown Host");
+			} catch (Exception e) {
+				return new OperationFailed("Exception when trying execute operation - Try again");
+			}
+		}
+		return new OperationFailed("Error - check the internet connection");
+		
+	}
+	
+	public Message logout ( Message msg ) {
+		
+		int attemps = 0;
+		
+		while (attemps < maxAttemps) {
+			try {
+				broker.sendMessage(msg, getActualIP(), Definitions.SERVER_RECEIVE_PORT);
+				Message m = broker.receiveMessage();
+				if (m.getClass().equals(SuccessfullySession.class)) {
+					this.ping.interrupt();
+					return m;
+				}else attemps++;
+			} catch (IOException e) {
+				System.out.println("Error - logout fail");
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			} catch (ConnectionFailureException e) {
+				attemps++;
+				continue;
+			}
+		}
+		return new FailSession();
+
+	}
+	
+	private InetAddress getActualIP () throws UnknownHostException {
+		return InetAddress.getByName(Definitions.SERVERS[ping.getIdServer()]);
+	}
+	
+}

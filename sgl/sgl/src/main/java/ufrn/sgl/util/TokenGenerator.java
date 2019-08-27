@@ -1,13 +1,12 @@
 package ufrn.sgl.util;
 
-import java.nio.charset.Charset;
 import java.util.Random;
 
 public class TokenGenerator {
 
 	public static String getToken () {
 	    int leftLimit = 48; // letter 'a'
-	    int rightLimit = 122; // letter 'z'
+	    int rightLimit = 122; // letter 'Z'
 	    int targetStringLength = 71;
 	  
 	    Random random = new Random();

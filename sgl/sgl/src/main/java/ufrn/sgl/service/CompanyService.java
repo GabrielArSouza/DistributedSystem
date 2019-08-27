@@ -10,8 +10,8 @@ public class CompanyService implements CompanyServiceInterface {
 	private CompanyDaoInterface dao = new CompanyDao();
 	
 	@Override
-	public void create(Company company) {
-		dao.create(company);
+	public long create(Company company) {
+		return dao.create(company);
 	}
 
 	@Override
@@ -25,8 +25,13 @@ public class CompanyService implements CompanyServiceInterface {
 	}
 
 	@Override
-	public void delete(Company company) {
-		dao.delete(company);
+	public void delete(long id) {
+		dao.delete(id);
+	}
+	
+	@Override
+	public Company read(Company company) {
+		return dao.read(company);
 	}
 	
 }

@@ -1,5 +1,8 @@
 package ufrn.sgl.dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Query;
 
 import org.hibernate.Session;
@@ -7,6 +10,8 @@ import org.hibernate.Transaction;
 
 import ufrn.sgl.dao.interfaces.AddressDaoInterface;
 import ufrn.sgl.model.Address;
+import ufrn.sgl.model.Bidding;
+import ufrn.sgl.model.User;
 import ufrn.sgl.util.HibernateUtil;
 
 public class AddressDao implements AddressDaoInterface{
@@ -24,13 +29,14 @@ public class AddressDao implements AddressDaoInterface{
 		
 		} catch (Exception e) {
 		
-			if (transaction != null) { transaction.rollback(); }
+//			if (transaction != null) { transaction.rollback(); }
+			e.printStackTrace();
 			System.out.println("Error: error to save a address in a Database Server");
 		}
 	}
 
 	@Override
-	public void create(Address address) {
+	public long create(Address address) {
 		this.save(address);
 		Transaction transaction = null;
     	try (Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -47,19 +53,48 @@ public class AddressDao implements AddressDaoInterface{
             System.out.println("Rows affected: " + result);
 
             transaction.commit();
+            return address.getId();
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            System.out.println("Error: error to create a new Address in the database server");
+//            if (transaction != null) {
+//                transaction.rollback();
+//            }
+//           
+        	e.printStackTrace();
+        	System.out.println("Error: error to create a new Address in the database server");
+            return -1;
         }
 		
 	}
 
 	@Override
 	public Address read(long id) {
-		// TODO Auto-generated method stub
-		return null;
+		Transaction transaction = null;
+		Address selected = null;
+		
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			// start a transaction
+			transaction = session.beginTransaction();
+			
+			// get an user object
+	        String hql = " FROM Address A WHERE A.id = :addressId ";
+	        Query query = session.createQuery(hql);
+	        query.setParameter("addressId", id);
+
+	        List<?> results = query.getResultList();
+	        
+	        if (results != null && !results.isEmpty()) 
+	        	selected = (Address) results.get(0);
+          
+	        // commit transaction
+	        transaction.commit();
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+	        if (transaction != null) 
+	        	transaction.rollback();
+		}
+		
+		return selected;
 	}
 
 	@Override
@@ -72,6 +107,39 @@ public class AddressDao implements AddressDaoInterface{
 	public void delete(Address address) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	@Override
+	public List<Address> list() {
+		Transaction transaction = null;
+		
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			// start a transaction
+			transaction = session.beginTransaction();
+			
+			// get an user object
+	        String hql = "FROM Bidding";
+	        Query query = session.createQuery(hql);
+
+	        List<?> results = query.getResultList();
+	       
+	        // commit transaction
+	        transaction.commit();
+	        
+	        if ( results != null && !results.isEmpty() ) {
+				@SuppressWarnings("unchecked")
+				ArrayList<Address> results2 = (ArrayList<Address>) results;
+				return results2;
+			}
+	        
+		} catch (Exception e) {
+			e.printStackTrace();
+	        if (transaction != null) 
+	        	transaction.rollback();
+		}
+		return null;
+		
+
 	}
 	
 

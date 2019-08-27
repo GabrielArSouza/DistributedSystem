@@ -19,12 +19,12 @@ public class Bidding implements Serializable{
 	private static final long serialVersionUID = 3750982075107378001L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private long id;
 	
-	@JoinColumn(name = "userId")
 	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "userId")
 	private User requestingUser;
 	
 	@Column(name = "description")

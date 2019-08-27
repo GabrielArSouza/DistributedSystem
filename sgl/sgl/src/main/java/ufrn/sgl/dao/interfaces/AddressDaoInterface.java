@@ -1,6 +1,9 @@
 package ufrn.sgl.dao.interfaces;
 
+import java.util.List;
+
 import ufrn.sgl.model.Address;
+import ufrn.sgl.model.Company;
 
 public interface AddressDaoInterface {
 
@@ -9,7 +12,7 @@ public interface AddressDaoInterface {
 	 * create a new address in the database
 	 * @param address the address to create
 	 */
-	public void create ( Address address );
+	public long create ( Address address );
 	
 	/**
 	 * get a address of database by a ID
@@ -29,5 +32,11 @@ public interface AddressDaoInterface {
 	 * @param address the address for delete
 	 */
 	public void delete (Address address);
+	
+	/**
+	 * list all addres
+	 * @return a list of address
+	 */
+	public List<Address> list ();
 	
 }

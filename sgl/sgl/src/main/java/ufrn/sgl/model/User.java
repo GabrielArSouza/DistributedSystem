@@ -21,11 +21,11 @@ public class User implements Serializable{
 	private static final long serialVersionUID = -7698133836342063149L;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private long id;
 	
-	@Column(name = "jusrisctionalName")
+	@Column(name = "jurisdictionalName")
 	private String jurisdictionalName;
 	
 	@Column(name = "jurisdictionalCode")
@@ -40,8 +40,8 @@ public class User implements Serializable{
 	@Column(name = "password")
 	private String password;
 	
-	@JoinColumn(name = "addressId")
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="address_id")
 	private Address address;
 	
 	
@@ -108,6 +108,24 @@ public class User implements Serializable{
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	
+
+	public void setJurisdictionalName(String jurisdictionalName) {
+		this.jurisdictionalName = jurisdictionalName;
+	}
+
+	public void setJurisdictionalCode(String jurisdictionalCode) {
+		this.jurisdictionalCode = jurisdictionalCode;
+	}
+
+	public void setCnpj(String cnpj) {
+		this.cnpj = cnpj;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	@Override

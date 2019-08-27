@@ -1,5 +1,7 @@
 package ufrn.sgl.dao.interfaces;
 
+import java.util.List;
+
 import ufrn.sgl.model.Company;
 
 public interface CompanyDaoInterface {
@@ -8,7 +10,7 @@ public interface CompanyDaoInterface {
 	 * create a new company in the database
 	 * @param company the company to create
 	 */
-	public void create ( Company company );
+	public long create ( Company company );
 	
 	/**
 	 * get a company of database by a ID
@@ -16,6 +18,8 @@ public interface CompanyDaoInterface {
 	 * @return the company that match with ID
 	 */
 	public Company read (long id);
+	
+	public Company read(Company company);
 	
 	/**
 	 * update the company in a database
@@ -27,6 +31,11 @@ public interface CompanyDaoInterface {
 	 * delete the company of database
 	 * @param company the company for delete
 	 */
-	public void delete (Company company);
+	public void delete (long id);
 	
+	/**
+	 * list all company
+	 * @return a list of company
+	 */
+	public List<Company> list ();
 }

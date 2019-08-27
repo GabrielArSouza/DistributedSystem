@@ -29,7 +29,7 @@ public class UDPMessageBroker {
 		DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length,
 				IPAddress, port);
 		sendSocket.send(sendPacket);
-		System.out.println("Sending mensage to " + IPAddress + ":" +Definitions.SERVER_RECEIVE_PORT);
+		//System.out.println("Sending mensage to " + IPAddress + ":" +Definitions.SERVER_RECEIVE_PORT);
 	}
 	
 	public Message receiveMessage () throws IOException, ClassNotFoundException, ConnectionFailureException {

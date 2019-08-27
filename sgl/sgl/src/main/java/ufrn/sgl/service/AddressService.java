@@ -10,8 +10,8 @@ public class AddressService implements AddressServiceInterface {
 	private AddressDaoInterface dao = new AddressDao();
 	
 	@Override
-	public void create(Address address) {
-		dao.create(address);
+	public long create(Address address) {
+		return dao.create(address);
 	}
 
 	@Override
