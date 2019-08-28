@@ -92,7 +92,7 @@ public class UserSessionDao implements UserSessionDaoInterface{
 			UserSession userSession = session.get(UserSession.class, id);
 			if (userSession != null) {
 				session.delete(userSession);
-				System.out.println("User is deleted");
+				System.out.println("User Session is deleted");
 			}
 
 			// commit transaction

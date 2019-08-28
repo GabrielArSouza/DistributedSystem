@@ -2,7 +2,6 @@ package ufrn.sgl.model;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Entity;
@@ -25,11 +24,11 @@ public class Tender implements Serializable {
 	@Column(name = "id", unique=true)
 	private long id;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name="company_id")
 	private Company company;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name="bidding_id")
 	private Bidding bidding;
 	
