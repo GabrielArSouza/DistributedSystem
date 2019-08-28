@@ -8,7 +8,9 @@ import ufrn.sgl.messages.protocol.logout.RequestUserLogout;
 import ufrn.sgl.messages.protocol.logout.SuccessfullyLogout;
 import ufrn.sgl.messages.protocol.read.ReadBiddingSuccessfully;
 import ufrn.sgl.messages.protocol.read.ReadFailed;
+import ufrn.sgl.messages.protocol.read.ReadUserSuccessfully;
 import ufrn.sgl.messages.protocol.read.RequestBiddingRead;
+import ufrn.sgl.messages.protocol.read.RequestUserRead;
 import ufrn.sgl.messages.protocol.register.RegistrationFailed;
 import ufrn.sgl.messages.protocol.register.RegistrationSuccessfully;
 import ufrn.sgl.messages.protocol.register.RequestBiddingRegistration;
@@ -94,10 +96,22 @@ public class UDPProtocolServer {
 		
 		if (msg.getClass().equals(RequestBiddingRead.class)) {
 			RequestBiddingRead msgBidding = (RequestBiddingRead) msg;
+			
+			// check session
+			if (userSessionService.read(msgBidding.getToken()) == null)
+				return new ReadFailed(msgBidding.getBidding().getId());
+			
 			Bidding b = biddingService.read(msgBidding.getBidding());
 			if (b != null) return new ReadBiddingSuccessfully(b);
 			else return new ReadFailed(msgBidding.getId());
+		
+		} else if (msg.getClass().equals(RequestUserRead.class)) {
+			RequestUserRead msgBidding = (RequestUserRead) msg;
+			User u = userService.read(msgBidding.getUser());
+			if (u != null) return new ReadUserSuccessfully(u);
+			else return new ReadFailed(msgBidding.getId());
 		}
+		
 		return new ReadFailed(-1);
 		
 		

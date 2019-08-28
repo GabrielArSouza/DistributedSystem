@@ -9,6 +9,7 @@ import java.net.InetAddress;
 import java.net.SocketException;
 
 import ufrn.sgl.messages.Message;
+import ufrn.sgl.messages.ReceiveMessageError;
 import ufrn.sgl.messages.protocol.connection.CheckConnection;
 import ufrn.sgl.messages.protocol.logout.RequestLogout;
 import ufrn.sgl.messages.protocol.read.RequestRead;
@@ -88,7 +89,7 @@ public class UDPServer {
 			} else if (msg.getClass().getSuperclass().equals(RequestRead.class)) {
 				Message reply = UDPProtocolServer.read(msg);
 				sendMessage(reply, msg.getOrigin(), Definitions.SERVER_SEND_PORT);
-			}
+			}else continue;
 			
 		}
 	}
@@ -116,13 +117,14 @@ public class UDPServer {
 		
 		// receive message
 		serverSocket.receive(receivePacket);
-
+		
 		// convert message to object
 		ObjectInputStream iStream = new ObjectInputStream(
 				new ByteArrayInputStream(receivePacket.getData()));
+		iStream.close();
 		Message msg = (Message) iStream.readObject();
 		msg.setOrigin(receivePacket.getAddress());
-		iStream.close();
+		
 		//System.out.println(msg.getMessage() + "\nFROM: " + msg.getOrigin());
 		return msg;
 	}
@@ -148,7 +150,11 @@ public class UDPServer {
 		UDPServer server = new UDPServer(); 
 		try {
 			server.run();
-		} catch (ClassNotFoundException | IOException e) {
+		} catch (ClassNotFoundException e) {
+			System.out.println("A classe informada não foi reconhecida");
+			e.printStackTrace();
+		} catch (IOException e) {
+			System.out.println("Não consegui converter para uma classe existente");
 			e.printStackTrace();
 		}
 	}	

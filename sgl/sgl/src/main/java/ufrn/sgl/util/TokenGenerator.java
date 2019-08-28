@@ -7,7 +7,7 @@ public class TokenGenerator {
 	public static String getToken () {
 	    int leftLimit = 48; // 0
 	    int rightLimit = 122; // z
-	    int targetStringLength = 71;
+	    int targetStringLength = 31;
 	  
 	    StringBuilder buffer = new StringBuilder(targetStringLength);
 	    

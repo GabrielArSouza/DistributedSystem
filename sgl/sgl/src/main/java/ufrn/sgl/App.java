@@ -47,11 +47,13 @@ public class App
 			UDPClient client = new UDPClient();
 			client.createUser(user);
 			Thread.sleep(1000);
-			String token = client.userLogin(user);
+			user = client.readUser(user);
 			Thread.sleep(2000);
-			client.createBidding(bidding, user, token);
-			Thread.sleep(2000);	
-			bidding = client.readBidding(bidding);
+			String token = client.userLogin(user);
+			Thread.sleep(5000);
+			client.createBidding(bidding, token);
+			Thread.sleep(5000);	
+			bidding = client.readBidding(bidding, token);
 //			client.createCompany(company);
 //			Thread.sleep(1000);	
 //			String token2 = client.companyLogin(company);

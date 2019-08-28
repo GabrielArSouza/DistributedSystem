@@ -21,7 +21,7 @@ public class Tender implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id", unique=true)
+	@Column(name = "id")
 	private long id;
 	
 	@OneToOne

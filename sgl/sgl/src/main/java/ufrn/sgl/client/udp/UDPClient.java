@@ -9,8 +9,9 @@ import ufrn.sgl.messages.protocol.logout.RequestCompanyLogout;
 import ufrn.sgl.messages.protocol.logout.RequestUserLogout;
 import ufrn.sgl.messages.protocol.logout.SuccessfullyLogout;
 import ufrn.sgl.messages.protocol.read.ReadBiddingSuccessfully;
+import ufrn.sgl.messages.protocol.read.ReadUserSuccessfully;
 import ufrn.sgl.messages.protocol.read.RequestBiddingRead;
-import ufrn.sgl.messages.protocol.read.RequestBiddingReadForID;
+import ufrn.sgl.messages.protocol.read.RequestUserRead;
 import ufrn.sgl.messages.protocol.register.RegistrationSuccessfully;
 import ufrn.sgl.messages.protocol.register.RequestBiddingRegistration;
 import ufrn.sgl.messages.protocol.register.RequestCompanyRegistration;
@@ -50,9 +51,9 @@ public class UDPClient {
 		this.createResult(response);
 	}
 	
-	public void createBidding ( Bidding bidding, User user, String token ) {
+	public void createBidding ( Bidding bidding, String token ) {
 		Message response = protocol.requestOperation(
-				new RequestBiddingRegistration(bidding,	user, token));
+				new RequestBiddingRegistration(bidding, token));
 		this.createResult(response);
 	}
 	
@@ -109,19 +110,27 @@ public class UDPClient {
 	 */
 	
 	public User readUser (User user) {
-		return null;
+		Message response = protocol.requestOperation( 
+				new RequestUserRead(user));
+		if (response.getClass().equals(ReadUserSuccessfully.class)) {
+			ReadUserSuccessfully u = (ReadUserSuccessfully) response;
+			return u.getUser();
+		}else {
+			System.out.println("Erro na consulta");
+			return null;
+		}
 	}
 	
 	public Company readCompany (Company company) {return null;}
 	
-	public Bidding readBidding (Bidding bidding) {
+	public Bidding readBidding (Bidding bidding, String token) {
 		Message response = protocol.requestOperation( 
-				new RequestBiddingRead(bidding));
+				new RequestBiddingRead(bidding, token));
 		if (response.getClass().equals(ReadBiddingSuccessfully.class)) {
 			ReadBiddingSuccessfully b = (ReadBiddingSuccessfully) response;
 			return b.getBidding();
 		}else {
-			System.out.println("erro na consulta");
+			System.out.println("Erro na consulta");
 			return null;
 		}
 	}
