@@ -8,11 +8,17 @@ import ufrn.sgl.messages.Message;
 import ufrn.sgl.messages.protocol.logout.RequestCompanyLogout;
 import ufrn.sgl.messages.protocol.logout.RequestUserLogout;
 import ufrn.sgl.messages.protocol.logout.SuccessfullyLogout;
+import ufrn.sgl.messages.protocol.read.ReadBiddingSuccessfully;
+import ufrn.sgl.messages.protocol.read.RequestBiddingRead;
+import ufrn.sgl.messages.protocol.read.RequestBiddingReadForID;
 import ufrn.sgl.messages.protocol.register.RegistrationSuccessfully;
 import ufrn.sgl.messages.protocol.register.RequestBiddingRegistration;
 import ufrn.sgl.messages.protocol.register.RequestCompanyRegistration;
 import ufrn.sgl.messages.protocol.register.RequestTenderRegistration;
 import ufrn.sgl.messages.protocol.register.RequestUserRegistration;
+import ufrn.sgl.messages.protocol.remove.RemoveSuccessfully;
+import ufrn.sgl.messages.protocol.remove.RequestBiddingRemove;
+import ufrn.sgl.messages.protocol.remove.RequestTenderRemove;
 import ufrn.sgl.messages.protocol.session.RequestCompanySession;
 import ufrn.sgl.messages.protocol.session.RequestUserSession;
 import ufrn.sgl.messages.protocol.session.SuccessfullySession;
@@ -67,11 +73,22 @@ public class UDPClient {
 	 */
 	
 	public void removeBidding (long id) {
-		
+		Message response = protocol.requestOperation(
+				new RequestBiddingRemove(id));
+		this.removeResult(response);
 	}
 
 	public void removeTender (long id) {
-		
+		Message response = protocol.requestOperation( 
+				new RequestTenderRemove(id));
+		this.removeResult(response);
+				
+	}
+	
+	private void removeResult (Message msg) {
+		if (msg.getClass().equals(RemoveSuccessfully.class))
+			System.out.println(successMessage);
+		else System.out.println(msg.getMessage());
 	}
 	
 	/**
@@ -91,20 +108,35 @@ public class UDPClient {
 	 * READ
 	 */
 	
-	public User readUser (User user) {return null;}
+	public User readUser (User user) {
+		return null;
+	}
 	
 	public Company readCompany (Company company) {return null;}
 	
-	public Bidding readBidding (Bidding bidding) {return null;}
+	public Bidding readBidding (Bidding bidding) {
+		Message response = protocol.requestOperation( 
+				new RequestBiddingRead(bidding));
+		if (response.getClass().equals(ReadBiddingSuccessfully.class)) {
+			ReadBiddingSuccessfully b = (ReadBiddingSuccessfully) response;
+			return b.getBidding();
+		}else {
+			System.out.println("erro na consulta");
+			return null;
+		}
+	}
 	
 	public Tender readTender (Tender tender) {return null;}
 	
+
 	/**
 	 * LIST
 	 */
 	
 	public List<User> listUser (User company) { return null;}
 	public List<Company> listCompany (Company company) { return null; }
+	public List<Bidding> listCompany (Bidding company) { return null; }
+	public List<Tender> listCompany (Tender company) { return null; }
 	
 	/**
 	 * LOGIN

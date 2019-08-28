@@ -22,7 +22,7 @@ public class Tender implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
+	@Column(name = "id", unique=true)
 	private long id;
 	
 	@OneToOne(cascade = CascadeType.ALL)
@@ -82,7 +82,5 @@ public class Tender implements Serializable {
 	public void setId(long id) {
 		this.id = id;
 	}
-	
-
 	
 }

@@ -6,16 +6,24 @@ import ufrn.sgl.messages.protocol.logout.FailLogout;
 import ufrn.sgl.messages.protocol.logout.RequestCompanyLogout;
 import ufrn.sgl.messages.protocol.logout.RequestUserLogout;
 import ufrn.sgl.messages.protocol.logout.SuccessfullyLogout;
+import ufrn.sgl.messages.protocol.read.ReadBiddingSuccessfully;
+import ufrn.sgl.messages.protocol.read.ReadFailed;
+import ufrn.sgl.messages.protocol.read.RequestBiddingRead;
 import ufrn.sgl.messages.protocol.register.RegistrationFailed;
 import ufrn.sgl.messages.protocol.register.RegistrationSuccessfully;
 import ufrn.sgl.messages.protocol.register.RequestBiddingRegistration;
 import ufrn.sgl.messages.protocol.register.RequestCompanyRegistration;
 import ufrn.sgl.messages.protocol.register.RequestTenderRegistration;
 import ufrn.sgl.messages.protocol.register.RequestUserRegistration;
+import ufrn.sgl.messages.protocol.remove.RemoveFailed;
+import ufrn.sgl.messages.protocol.remove.RemoveSuccessfully;
+import ufrn.sgl.messages.protocol.remove.RequestBiddingRemove;
+import ufrn.sgl.messages.protocol.remove.RequestTenderRemove;
 import ufrn.sgl.messages.protocol.session.FailSession;
 import ufrn.sgl.messages.protocol.session.RequestCompanySession;
 import ufrn.sgl.messages.protocol.session.RequestUserSession;
 import ufrn.sgl.messages.protocol.session.SuccessfullySession;
+import ufrn.sgl.model.Bidding;
 import ufrn.sgl.model.Company;
 import ufrn.sgl.model.CompanySession;
 import ufrn.sgl.model.User;
@@ -82,8 +90,35 @@ public class UDPProtocolServer {
 
 	}
 	
+	public static Message read (Message msg) {
+		
+		if (msg.getClass().equals(RequestBiddingRead.class)) {
+			RequestBiddingRead msgBidding = (RequestBiddingRead) msg;
+			Bidding b = biddingService.read(msgBidding.getBidding());
+			if (b != null) return new ReadBiddingSuccessfully(b);
+			else return new ReadFailed(msgBidding.getId());
+		}
+		return new ReadFailed(-1);
+		
+		
+	}
+	
 	public static Message remove (Message msg) {
-		return null;
+		
+		if (msg.getClass().equals(RequestBiddingRemove.class)) {
+			RequestBiddingRemove msgBidding = (RequestBiddingRemove) msg;
+			biddingService.delete(msgBidding.getId());
+			return new RemoveSuccessfully();
+		
+		} else if (msg.getClass().equals(RequestTenderRemove.class)) {
+			RequestTenderRemove msgTender = (RequestTenderRemove) msg;
+			tenderService.delete(msgTender.getId());
+			return new RemoveSuccessfully();
+		
+		}
+		
+		return new RemoveFailed();
+		
 	}
 	
 	public static Message session (Message msg) { 

@@ -20,7 +20,7 @@ public class Bidding implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
+	@Column(name = "id", unique = true)
 	private long id;
 	
 	@OneToOne(cascade = CascadeType.ALL)

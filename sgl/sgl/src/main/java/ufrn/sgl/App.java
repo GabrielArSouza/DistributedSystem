@@ -32,9 +32,9 @@ public class App
     	 */
     	
     	
-    	User user = new User("teste5", "teste5", "teste5",
+    	User user = new User("teste5", "teste5", "12312938183-0001/23",
     			new Address("teste5", 5, "teste5", "teste5", "teste5"),
-    			"teste5", "teste5");
+    			"pmj@gmail.com", "teste5");
     	
     	Company company = new Company("teste5", "", "", "", 
     			new Address("teste5", 5, "teste5", "teste5", "teste5"), "teste5", "teste5");
@@ -45,21 +45,24 @@ public class App
     	
     	try {
 			UDPClient client = new UDPClient();
-//			client.createUser(user);
-//			Thread.sleep(1000);
-//			String token = client.userLogin(user);
-//			Thread.sleep(2000);
-//			client.createBidding(bidding, user, token);
-//			Thread.sleep(2000);			
-			client.createCompany(company);
-			Thread.sleep(1000);	
-			String token2 = client.companyLogin(company);
+			client.createUser(user);
+			Thread.sleep(1000);
+			String token = client.userLogin(user);
+			Thread.sleep(2000);
+			client.createBidding(bidding, user, token);
 			Thread.sleep(2000);	
-			client.createTender(tender, token2);
-			Thread.sleep(1000);	
-			client.companyLogout(token2);
-//			Thread.sleep(2000);
-//			client.userLogout(token);
+			bidding = client.readBidding(bidding);
+//			client.createCompany(company);
+//			Thread.sleep(1000);	
+//			String token2 = client.companyLogin(company);
+//			Thread.sleep(2000);	
+//			client.createTender(tender, token2);
+//			Thread.sleep(1000);	
+//			client.companyLogout(token2);
+			Thread.sleep(2000);	
+			client.removeBidding(bidding.getId());
+			Thread.sleep(2000);
+			client.userLogout(token);
 				
 		} catch (SocketException e) {
 			// TODO Auto-generated catch block

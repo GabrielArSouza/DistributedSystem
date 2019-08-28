@@ -11,7 +11,9 @@ import java.net.SocketException;
 import ufrn.sgl.messages.Message;
 import ufrn.sgl.messages.protocol.connection.CheckConnection;
 import ufrn.sgl.messages.protocol.logout.RequestLogout;
+import ufrn.sgl.messages.protocol.read.RequestRead;
 import ufrn.sgl.messages.protocol.register.RequestRegistration;
+import ufrn.sgl.messages.protocol.remove.RequestRemove;
 import ufrn.sgl.messages.protocol.session.RequestSession;
 import ufrn.sgl.model.User;
 import ufrn.sgl.service.UserService;
@@ -67,19 +69,26 @@ public class UDPServer {
 			
 			} else if (msg.getClass().getSuperclass().equals(RequestSession.class)) {
 				System.out.println("requestSession");
-				Message replyMessage = UDPProtocolServer.session( msg );
-				sendMessage(replyMessage, msg.getOrigin(), Definitions.SERVER_SEND_PORT);
+				Message reply = UDPProtocolServer.session( msg );
+				sendMessage(reply, msg.getOrigin(), Definitions.SERVER_SEND_PORT);
 			
 			} else if (msg.getClass().getSuperclass().equals(RequestLogout.class)) {
 				System.out.println("request logout");
-				Message replyMessage = UDPProtocolServer.logout( msg );
-				sendMessage(replyMessage, msg.getOrigin(), Definitions.SERVER_SEND_PORT);
+				Message reply = UDPProtocolServer.logout( msg );
+				sendMessage(reply, msg.getOrigin(), Definitions.SERVER_SEND_PORT);
 		
 			} else if (msg.getClass().getSuperclass().equals(RequestRegistration.class)) {
-				Message replyMessage = UDPProtocolServer.register(msg);
-				sendMessage(replyMessage, msg.getOrigin(), Definitions.SERVER_SEND_PORT);
+				Message reply = UDPProtocolServer.register(msg);
+				sendMessage(reply, msg.getOrigin(), Definitions.SERVER_SEND_PORT);
 			
-			} 
+			} else if (msg.getClass().getSuperclass().equals(RequestRemove.class)) {
+				Message reply = UDPProtocolServer.remove(msg);
+				sendMessage(reply, msg.getOrigin(), Definitions.SERVER_SEND_PORT);
+			
+			} else if (msg.getClass().getSuperclass().equals(RequestRead.class)) {
+				Message reply = UDPProtocolServer.read(msg);
+				sendMessage(reply, msg.getOrigin(), Definitions.SERVER_SEND_PORT);
+			}
 			
 		}
 	}

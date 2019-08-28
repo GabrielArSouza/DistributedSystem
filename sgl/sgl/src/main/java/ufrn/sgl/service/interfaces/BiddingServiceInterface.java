@@ -17,6 +17,8 @@ public interface BiddingServiceInterface {
 	 */
 	public Bidding read (long id);
 	
+	public Bidding read(Bidding bidding);
+	
 	/**
 	 * update the bidding in a database
 	 * @param bidding the bidding for update
