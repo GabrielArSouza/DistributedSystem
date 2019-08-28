@@ -1,5 +1,7 @@
 package ufrn.sgl.model;
 
+import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -14,7 +16,9 @@ import javax.persistence.Table;
 @Entity
 @Embeddable
 @Table (name = "Tender")
-public class Tender {
+public class Tender implements Serializable {
+
+	private static final long serialVersionUID = -9081239952128040140L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

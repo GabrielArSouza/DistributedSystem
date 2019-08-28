@@ -10,6 +10,7 @@ import ufrn.sgl.messages.protocol.register.RegistrationFailed;
 import ufrn.sgl.messages.protocol.register.RegistrationSuccessfully;
 import ufrn.sgl.messages.protocol.register.RequestBiddingRegistration;
 import ufrn.sgl.messages.protocol.register.RequestCompanyRegistration;
+import ufrn.sgl.messages.protocol.register.RequestTenderRegistration;
 import ufrn.sgl.messages.protocol.register.RequestUserRegistration;
 import ufrn.sgl.messages.protocol.session.FailSession;
 import ufrn.sgl.messages.protocol.session.RequestCompanySession;
@@ -22,11 +23,13 @@ import ufrn.sgl.model.UserSession;
 import ufrn.sgl.service.BiddingService;
 import ufrn.sgl.service.CompanyService;
 import ufrn.sgl.service.CompanySessionService;
+import ufrn.sgl.service.TenderService;
 import ufrn.sgl.service.UserService;
 import ufrn.sgl.service.UserSessionService;
 import ufrn.sgl.service.interfaces.BiddingServiceInterface;
 import ufrn.sgl.service.interfaces.CompanyServiceInterface;
 import ufrn.sgl.service.interfaces.CompanySessionServiceInterface;
+import ufrn.sgl.service.interfaces.TenderServiceInterface;
 import ufrn.sgl.service.interfaces.UserServiceInterface;
 import ufrn.sgl.service.interfaces.UserSessionServiceInterface;
 import ufrn.sgl.util.TokenGenerator;
@@ -38,6 +41,7 @@ public class UDPProtocolServer {
 	private static final CompanyServiceInterface companyService = new CompanyService();
 	private static final UserSessionServiceInterface userSessionService = new UserSessionService();
 	private static final CompanySessionServiceInterface companySessionService = new CompanySessionService();
+	private static final TenderServiceInterface tenderService = new TenderService();
 	
 	public static Message connection () {
 		return new ConfirmConnection();
@@ -50,6 +54,13 @@ public class UDPProtocolServer {
 			userService.create(msgUser.getUser());
 			return new RegistrationSuccessfully();
 		} 
+		
+		else if (msg.getClass().equals(RequestCompanyRegistration.class)) {
+			RequestCompanyRegistration msgCompany = (RequestCompanyRegistration) msg;
+			companyService.create(msgCompany.getCompany());
+			return new RegistrationSuccessfully();
+		}
+
 		else if (msg.getClass().equals(RequestBiddingRegistration.class)) {
 			RequestBiddingRegistration msgBidding = (RequestBiddingRegistration) msg;
 			if (userSessionService.read(msgBidding.getToken()) != null) {
@@ -57,11 +68,16 @@ public class UDPProtocolServer {
 				return new RegistrationSuccessfully();
 			}else {return new RegistrationFailed();}
 		}	
-		else if (msg.getClass().equals(RequestCompanyRegistration.class)) {
-			RequestCompanyRegistration msgCompany = (RequestCompanyRegistration) msg;
-			companyService.create(msgCompany.getCompany());
-			return new RegistrationSuccessfully();
+
+		else if (msg.getClass().equals(RequestTenderRegistration.class)) {
+			RequestTenderRegistration msgTender = (RequestTenderRegistration) msg;
+			if (companySessionService.read(msgTender.getToken()) != null) {
+				tenderService.create(msgTender.getTender());
+				return new RegistrationSuccessfully();
+			}else return new RegistrationFailed();
+			
 		}
+		
 		else { return new RegistrationFailed(); }
 
 	}

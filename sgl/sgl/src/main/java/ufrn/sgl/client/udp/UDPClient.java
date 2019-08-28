@@ -2,6 +2,7 @@ package ufrn.sgl.client.udp;
 
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.List;
 
 import ufrn.sgl.messages.Message;
 import ufrn.sgl.messages.protocol.logout.RequestCompanyLogout;
@@ -10,12 +11,14 @@ import ufrn.sgl.messages.protocol.logout.SuccessfullyLogout;
 import ufrn.sgl.messages.protocol.register.RegistrationSuccessfully;
 import ufrn.sgl.messages.protocol.register.RequestBiddingRegistration;
 import ufrn.sgl.messages.protocol.register.RequestCompanyRegistration;
+import ufrn.sgl.messages.protocol.register.RequestTenderRegistration;
 import ufrn.sgl.messages.protocol.register.RequestUserRegistration;
 import ufrn.sgl.messages.protocol.session.RequestCompanySession;
 import ufrn.sgl.messages.protocol.session.RequestUserSession;
 import ufrn.sgl.messages.protocol.session.SuccessfullySession;
 import ufrn.sgl.model.Bidding;
 import ufrn.sgl.model.Company;
+import ufrn.sgl.model.Tender;
 import ufrn.sgl.model.User;
 
 public class UDPClient {
@@ -33,25 +36,75 @@ public class UDPClient {
 	
 	public void createUser ( User user ) {
 		Message response = protocol.requestOperation(new RequestUserRegistration(user));
-		if (response.getClass().equals( RegistrationSuccessfully.class ))
-			System.out.println(successMessage);
-		else System.out.println(response.getMessage());
+		this.createResult(response);
 	}
 	
 	public void createCompany ( Company company ) {
 		Message response = protocol.requestOperation(new RequestCompanyRegistration(company));
-		if (response.getClass().equals( RegistrationSuccessfully.class ))
-			System.out.println(successMessage);
-		else System.out.println(response.getMessage());
+		this.createResult(response);
 	}
 	
 	public void createBidding ( Bidding bidding, User user, String token ) {
 		Message response = protocol.requestOperation(
 				new RequestBiddingRegistration(bidding,	user, token));
-		if (response.getClass().equals( RegistrationSuccessfully.class ))
+		this.createResult(response);
+	}
+	
+	public void createTender (Tender tender, String token ) {
+		Message response = protocol.requestOperation(
+				new RequestTenderRegistration(tender, token));
+		this.createResult(response);
+	}
+	
+	private void createResult (Message response) {
+		if (response.getClass().equals(RegistrationSuccessfully.class))
 			System.out.println(successMessage);
 		else System.out.println(response.getMessage());
 	}
+	
+	/**
+	 * REMOVE
+	 */
+	
+	public void removeBidding (long id) {
+		
+	}
+
+	public void removeTender (long id) {
+		
+	}
+	
+	/**
+	 * UPDATE
+	 */
+	
+	public void updateUser (User user) {}
+	
+	public void updateCompany (Company company) {}
+	
+	public void updateBidding (Bidding bidding) {}
+	
+	public void updateTender (Tender tender) {}
+	
+	
+	/**
+	 * READ
+	 */
+	
+	public User readUser (User user) {return null;}
+	
+	public Company readCompany (Company company) {return null;}
+	
+	public Bidding readBidding (Bidding bidding) {return null;}
+	
+	public Tender readTender (Tender tender) {return null;}
+	
+	/**
+	 * LIST
+	 */
+	
+	public List<User> listUser (User company) { return null;}
+	public List<Company> listCompany (Company company) { return null; }
 	
 	/**
 	 * LOGIN
