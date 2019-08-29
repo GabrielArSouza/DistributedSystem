@@ -19,4 +19,8 @@ public class ReadTenderSuccessFully extends ReadSuccessfully{
 		return null;
 	}
 
+	public Tender getTender() {
+		return tender;
+	}
+
 }

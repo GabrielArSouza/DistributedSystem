@@ -9,8 +9,12 @@ import ufrn.sgl.messages.protocol.logout.RequestCompanyLogout;
 import ufrn.sgl.messages.protocol.logout.RequestUserLogout;
 import ufrn.sgl.messages.protocol.logout.SuccessfullyLogout;
 import ufrn.sgl.messages.protocol.read.ReadBiddingSuccessfully;
+import ufrn.sgl.messages.protocol.read.ReadCompanySuccessfully;
+import ufrn.sgl.messages.protocol.read.ReadTenderSuccessFully;
 import ufrn.sgl.messages.protocol.read.ReadUserSuccessfully;
 import ufrn.sgl.messages.protocol.read.RequestBiddingRead;
+import ufrn.sgl.messages.protocol.read.RequestCompanyRead;
+import ufrn.sgl.messages.protocol.read.RequestTenderRead;
 import ufrn.sgl.messages.protocol.read.RequestUserRead;
 import ufrn.sgl.messages.protocol.register.RegistrationSuccessfully;
 import ufrn.sgl.messages.protocol.register.RequestBiddingRegistration;
@@ -23,6 +27,11 @@ import ufrn.sgl.messages.protocol.remove.RequestTenderRemove;
 import ufrn.sgl.messages.protocol.session.RequestCompanySession;
 import ufrn.sgl.messages.protocol.session.RequestUserSession;
 import ufrn.sgl.messages.protocol.session.SuccessfullySession;
+import ufrn.sgl.messages.protocol.update.RequestBiddingUpdate;
+import ufrn.sgl.messages.protocol.update.RequestCompanyUpdate;
+import ufrn.sgl.messages.protocol.update.RequestTenderUpdate;
+import ufrn.sgl.messages.protocol.update.RequestUserUpdate;
+import ufrn.sgl.messages.protocol.update.UpdateSuccessfully;
 import ufrn.sgl.model.Bidding;
 import ufrn.sgl.model.Company;
 import ufrn.sgl.model.Tender;
@@ -96,14 +105,35 @@ public class UDPClient {
 	 * UPDATE
 	 */
 	
-	public void updateUser (User user) {}
+	public void updateUser (User user) {
+		Message response = protocol.requestOperation(
+				new RequestUserUpdate(user));
+		this.updateResult(response);
+	}
 	
-	public void updateCompany (Company company) {}
+	public void updateCompany (Company company) {
+		Message response = protocol.requestOperation(
+				new RequestCompanyUpdate(company));
+		this.updateResult(response);
+	}
 	
-	public void updateBidding (Bidding bidding) {}
+	public void updateBidding (Bidding bidding) {
+		Message response = protocol.requestOperation(
+				new RequestBiddingUpdate(bidding));
+		this.updateResult(response);
+	}
 	
-	public void updateTender (Tender tender) {}
+	public void updateTender (Tender tender) {
+		Message response = protocol.requestOperation(
+				new RequestTenderUpdate(tender));
+		this.updateResult(response);
+	}
 	
+	private void updateResult (Message msg) {
+		if (msg.getClass().equals(UpdateSuccessfully.class))
+			System.out.println(successMessage);
+		else System.out.println(msg.getMessage());
+	}
 	
 	/**
 	 * READ
@@ -121,7 +151,17 @@ public class UDPClient {
 		}
 	}
 	
-	public Company readCompany (Company company) {return null;}
+	public Company readCompany (Company company) {
+		Message response = protocol.requestOperation( 
+				new RequestCompanyRead(company));
+		if (response.getClass().equals(ReadCompanySuccessfully.class)) {
+			ReadCompanySuccessfully c = (ReadCompanySuccessfully) response;
+			return c.getCompany();
+		}else {
+			System.out.println("Erro na consulta");
+			return null;
+		}
+	}
 	
 	public Bidding readBidding (Bidding bidding, String token) {
 		Message response = protocol.requestOperation( 
@@ -135,9 +175,18 @@ public class UDPClient {
 		}
 	}
 	
-	public Tender readTender (Tender tender) {return null;}
+	public Tender readTender (Tender tender, String token) {
+		Message response = protocol.requestOperation( 
+				new RequestTenderRead(tender, token));
+		if (response.getClass().equals(ReadTenderSuccessFully.class)) {
+			ReadTenderSuccessFully t = (ReadTenderSuccessFully) response;
+			return t.getTender();
+		}else {
+			System.out.println("Erro na consulta");
+			return null;
+		}
+	}
 	
-
 	/**
 	 * LIST
 	 */
