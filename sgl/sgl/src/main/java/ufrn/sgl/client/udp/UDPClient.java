@@ -5,6 +5,10 @@ import java.net.UnknownHostException;
 import java.util.List;
 
 import ufrn.sgl.messages.Message;
+import ufrn.sgl.messages.protocol.list.ListBiddingSuccessfully;
+import ufrn.sgl.messages.protocol.list.ListTenderSuccessfully;
+import ufrn.sgl.messages.protocol.list.RequestBiddingList;
+import ufrn.sgl.messages.protocol.list.RequestTenderList;
 import ufrn.sgl.messages.protocol.logout.RequestCompanyLogout;
 import ufrn.sgl.messages.protocol.logout.RequestUserLogout;
 import ufrn.sgl.messages.protocol.logout.SuccessfullyLogout;
@@ -191,8 +195,23 @@ public class UDPClient {
 	 * LIST
 	 */
 	
-	public List<Bidding> listCompany (Bidding company) { return null; }
-	public List<Tender> listCompany (Tender company) { return null; }
+	public List<Bidding> listBidding (String token) { 
+		Message response = protocol.requestOperation( 
+				new RequestBiddingList(token));
+		if (response.getClass().equals(ListBiddingSuccessfully.class)) {
+			ListBiddingSuccessfully b = (ListBiddingSuccessfully) response;
+			return b.getBiddings();
+		}else return null;
+	}
+	
+	public List<Tender> listTender (String token) { 
+		Message response = protocol.requestOperation( 
+				new RequestTenderList(token));
+		if (response.getClass().equals(ListTenderSuccessfully.class)) {
+			ListTenderSuccessfully b = (ListTenderSuccessfully) response;
+			return b.getTender();
+		}else return null;
+	}
 	
 	/**
 	 * LOGIN
