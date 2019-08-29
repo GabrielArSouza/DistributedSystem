@@ -48,22 +48,21 @@ public class App
 			client.createUser(user);
 			Thread.sleep(1000);
 			user = client.readUser(user);
-			Thread.sleep(2000);
+			Thread.sleep(1000);
 			String token = client.userLogin(user);
-			Thread.sleep(5000);
+			Thread.sleep(1000);
 			client.createBidding(bidding, token);
-			Thread.sleep(5000);	
+			Thread.sleep(1000);	
 			bidding = client.readBidding(bidding, token);
-//			client.createCompany(company);
-//			Thread.sleep(1000);	
-//			String token2 = client.companyLogin(company);
-//			Thread.sleep(2000);	
-//			client.createTender(tender, token2);
-//			Thread.sleep(1000);	
-//			client.companyLogout(token2);
+			Thread.sleep(1000);	
+			client.createCompany(company);
 			Thread.sleep(2000);	
-			client.removeBidding(bidding.getId());
-			Thread.sleep(2000);
+			company = client.readCompany(company);
+			Thread.sleep(2000);	
+			String token2 = client.companyLogin(company);
+			Thread.sleep(2000);	
+			client.companyLogout(token2);
+			Thread.sleep(1000);
 			client.userLogout(token);
 				
 		} catch (SocketException e) {

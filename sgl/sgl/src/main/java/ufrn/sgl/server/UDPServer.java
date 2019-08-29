@@ -9,13 +9,14 @@ import java.net.InetAddress;
 import java.net.SocketException;
 
 import ufrn.sgl.messages.Message;
-import ufrn.sgl.messages.ReceiveMessageError;
 import ufrn.sgl.messages.protocol.connection.CheckConnection;
+import ufrn.sgl.messages.protocol.list.RequestList;
 import ufrn.sgl.messages.protocol.logout.RequestLogout;
 import ufrn.sgl.messages.protocol.read.RequestRead;
 import ufrn.sgl.messages.protocol.register.RequestRegistration;
 import ufrn.sgl.messages.protocol.remove.RequestRemove;
 import ufrn.sgl.messages.protocol.session.RequestSession;
+import ufrn.sgl.messages.protocol.update.RequestUpdate;
 import ufrn.sgl.model.User;
 import ufrn.sgl.service.UserService;
 import ufrn.sgl.service.interfaces.UserServiceInterface;
@@ -89,7 +90,17 @@ public class UDPServer {
 			} else if (msg.getClass().getSuperclass().equals(RequestRead.class)) {
 				Message reply = UDPProtocolServer.read(msg);
 				sendMessage(reply, msg.getOrigin(), Definitions.SERVER_SEND_PORT);
-			}else continue;
+			
+			} else if (msg.getClass().getSuperclass().equals(RequestUpdate.class)) {
+				Message reply = UDPProtocolServer.update(msg);
+				sendMessage(reply, msg.getOrigin(), Definitions.SERVER_SEND_PORT);
+				
+			} else if (msg.getClass().getSuperclass().equals(RequestList.class)) {
+				Message reply = UDPProtocolServer.list(msg);
+				sendMessage(reply, msg.getOrigin(), Definitions.SERVER_SEND_PORT);
+			}
+			
+			else continue;
 			
 		}
 	}
@@ -111,7 +122,7 @@ public class UDPServer {
 	private Message receiveMessage() throws IOException, ClassNotFoundException {
 		
 		// create package to receive
-		byte[] receiveMessage = new byte[1024];
+		byte[] receiveMessage = new byte[2048];
 		DatagramPacket receivePacket = new DatagramPacket(
 				receiveMessage, receiveMessage.length);
 		

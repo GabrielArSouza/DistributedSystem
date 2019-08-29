@@ -13,6 +13,13 @@ public class RequestCompanyRead extends RequestRead{
 		this.company = company;
 	}
 	
+	
+	public Company getCompany() {
+		return company;
+	}
+
+
+
 	@Override
 	public String getMessage() {
 		// TODO Auto-generated method stub

@@ -1,15 +1,26 @@
 package ufrn.sgl.server;
 
+import java.util.List;
+
 import ufrn.sgl.messages.Message;
 import ufrn.sgl.messages.protocol.connection.ConfirmConnection;
+import ufrn.sgl.messages.protocol.list.ListBiddingSuccessfully;
+import ufrn.sgl.messages.protocol.list.ListFail;
+import ufrn.sgl.messages.protocol.list.ListTenderSuccessfully;
+import ufrn.sgl.messages.protocol.list.RequestBiddingList;
+import ufrn.sgl.messages.protocol.list.RequestTenderList;
 import ufrn.sgl.messages.protocol.logout.FailLogout;
 import ufrn.sgl.messages.protocol.logout.RequestCompanyLogout;
 import ufrn.sgl.messages.protocol.logout.RequestUserLogout;
 import ufrn.sgl.messages.protocol.logout.SuccessfullyLogout;
 import ufrn.sgl.messages.protocol.read.ReadBiddingSuccessfully;
+import ufrn.sgl.messages.protocol.read.ReadCompanySuccessfully;
 import ufrn.sgl.messages.protocol.read.ReadFailed;
+import ufrn.sgl.messages.protocol.read.ReadTenderSuccessFully;
 import ufrn.sgl.messages.protocol.read.ReadUserSuccessfully;
 import ufrn.sgl.messages.protocol.read.RequestBiddingRead;
+import ufrn.sgl.messages.protocol.read.RequestCompanyRead;
+import ufrn.sgl.messages.protocol.read.RequestTenderRead;
 import ufrn.sgl.messages.protocol.read.RequestUserRead;
 import ufrn.sgl.messages.protocol.register.RegistrationFailed;
 import ufrn.sgl.messages.protocol.register.RegistrationSuccessfully;
@@ -25,9 +36,14 @@ import ufrn.sgl.messages.protocol.session.FailSession;
 import ufrn.sgl.messages.protocol.session.RequestCompanySession;
 import ufrn.sgl.messages.protocol.session.RequestUserSession;
 import ufrn.sgl.messages.protocol.session.SuccessfullySession;
+import ufrn.sgl.messages.protocol.update.RequestBiddingUpdate;
+import ufrn.sgl.messages.protocol.update.RequestTenderUpdate;
+import ufrn.sgl.messages.protocol.update.UpdateFailed;
+import ufrn.sgl.messages.protocol.update.UpdateSuccessfully;
 import ufrn.sgl.model.Bidding;
 import ufrn.sgl.model.Company;
 import ufrn.sgl.model.CompanySession;
+import ufrn.sgl.model.Tender;
 import ufrn.sgl.model.User;
 import ufrn.sgl.model.UserSession;
 import ufrn.sgl.service.BiddingService;
@@ -110,6 +126,22 @@ public class UDPProtocolServer {
 			User u = userService.read(msgBidding.getUser());
 			if (u != null) return new ReadUserSuccessfully(u);
 			else return new ReadFailed(msgBidding.getId());
+		
+		} else if (msg.getClass().equals(RequestTenderRead.class)) {
+			RequestTenderRead msgTender = (RequestTenderRead) msg;
+			
+			if (companySessionService.read(msgTender.getToken()) == null)
+				return new ReadFailed(msgTender.getId());
+			
+			Tender t = tenderService.read(msgTender.getId());
+			if (t != null ) return new ReadTenderSuccessFully(t);
+			else return new ReadFailed(msgTender.getId());
+		
+		} else if (msg.getClass().equals(RequestCompanyRead.class)){
+			RequestCompanyRead msgCompany = (RequestCompanyRead) msg;
+			Company c = companyService.read(msgCompany.getCompany());
+			if (c != null) return new ReadCompanySuccessfully(c);
+			else return new ReadFailed(msgCompany.getId());
 		}
 		
 		return new ReadFailed(-1);
@@ -121,11 +153,19 @@ public class UDPProtocolServer {
 		
 		if (msg.getClass().equals(RequestBiddingRemove.class)) {
 			RequestBiddingRemove msgBidding = (RequestBiddingRemove) msg;
+		
+			if (userSessionService.read(msgBidding.getToken()) == null)
+				return new RemoveFailed();
+			
 			biddingService.delete(msgBidding.getId());
 			return new RemoveSuccessfully();
 		
 		} else if (msg.getClass().equals(RequestTenderRemove.class)) {
 			RequestTenderRemove msgTender = (RequestTenderRemove) msg;
+			
+			if (companySessionService.read(msgTender.getToken()) == null)
+				return new RemoveFailed();
+			
 			tenderService.delete(msgTender.getId());
 			return new RemoveSuccessfully();
 		
@@ -133,6 +173,54 @@ public class UDPProtocolServer {
 		
 		return new RemoveFailed();
 		
+	}
+	
+	public static Message update (Message msg) {
+		if (msg.getClass().equals(RequestBiddingUpdate.class)) {
+			RequestBiddingUpdate msgBidding = (RequestBiddingUpdate) msg;
+			
+			if (userSessionService.read(msgBidding.getToken()) == null)
+				return new UpdateFailed();
+			
+			biddingService.update(msgBidding.getBidding());
+			return new UpdateSuccessfully();
+		
+		} else if (msg.getClass().equals(RequestTenderUpdate.class)) {
+			RequestTenderUpdate msgTender = (RequestTenderUpdate) msg;
+			
+			if (companySessionService.read(msgTender.getToken()) == null)
+				return new UpdateFailed();
+			
+			tenderService.update(msgTender.getTender());
+			return new UpdateSuccessfully();
+		}
+		
+		return new UpdateFailed();
+	}
+	
+	public static Message list (Message msg) {
+		if (msg.getClass().equals(RequestBiddingList.class)) {
+			RequestBiddingList msgBidding = (RequestBiddingList) msg;
+			
+			// check session
+			if (userSessionService.read(msgBidding.getToken()) == null ||
+				companySessionService.read(msgBidding.getToken()) == null) 
+				return new ListFail();
+			
+			List<Bidding> response = biddingService.list();
+			if (response != null ) return new ListBiddingSuccessfully(response);
+			
+		} else if (msg.getClass().equals(RequestTenderList.class)) {
+			RequestTenderList msgTender = (RequestTenderList) msg;
+			
+			if (companySessionService.read(msgTender.getToken()) == null)
+				return new ListFail();
+			
+			List<Tender> response = tenderService.list();
+			if (response != null) return new ListTenderSuccessfully(response);
+		}
+		
+		return new ListFail();
 	}
 	
 	public static Message session (Message msg) { 

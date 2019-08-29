@@ -10,7 +10,6 @@ import org.hibernate.Transaction;
 
 import ufrn.sgl.dao.interfaces.TenderDaoInterface;
 import ufrn.sgl.model.Tender;
-import ufrn.sgl.model.User;
 import ufrn.sgl.util.HibernateUtil;
 
 public class TenderDao implements TenderDaoInterface {

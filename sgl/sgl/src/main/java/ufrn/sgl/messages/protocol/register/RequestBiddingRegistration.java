@@ -1,7 +1,6 @@
 package ufrn.sgl.messages.protocol.register;
 
 import ufrn.sgl.model.Bidding;
-import ufrn.sgl.model.User;
 
 public class RequestBiddingRegistration extends RequestRegistration{
 

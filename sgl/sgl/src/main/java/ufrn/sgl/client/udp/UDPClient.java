@@ -86,15 +86,15 @@ public class UDPClient {
 	 * REMOVE
 	 */
 	
-	public void removeBidding (long id) {
+	public void removeBidding (long id, String token) {
 		Message response = protocol.requestOperation(
-				new RequestBiddingRemove(id));
+				new RequestBiddingRemove(id, token));
 		this.removeResult(response);
 	}
 
-	public void removeTender (long id) {
+	public void removeTender (long id, String token) {
 		Message response = protocol.requestOperation( 
-				new RequestTenderRemove(id));
+				new RequestTenderRemove(id, token));
 		this.removeResult(response);
 				
 	}
@@ -121,15 +121,15 @@ public class UDPClient {
 		this.updateResult(response);
 	}
 	
-	public void updateBidding (Bidding bidding) {
+	public void updateBidding (Bidding bidding, String token) {
 		Message response = protocol.requestOperation(
-				new RequestBiddingUpdate(bidding));
+				new RequestBiddingUpdate(bidding, token));
 		this.updateResult(response);
 	}
 	
-	public void updateTender (Tender tender) {
+	public void updateTender (Tender tender, String token) {
 		Message response = protocol.requestOperation(
-				new RequestTenderUpdate(tender));
+				new RequestTenderUpdate(tender, token));
 		this.updateResult(response);
 	}
 	

@@ -2,6 +2,7 @@ package ufrn.sgl.model;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Entity;
@@ -9,7 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -24,11 +25,11 @@ public class Tender implements Serializable {
 	@Column(name = "id")
 	private long id;
 	
-	@OneToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="company_id")
 	private Company company;
 	
-	@OneToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="bidding_id")
 	private Bidding bidding;
 	
