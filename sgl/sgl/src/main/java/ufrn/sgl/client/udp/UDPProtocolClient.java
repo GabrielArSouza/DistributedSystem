@@ -12,7 +12,7 @@ import ufrn.sgl.util.Definitions;
 import ufrn.sgl.util.PingConnection;
 import ufrn.sgl.util.UDPMessageBroker;
 
-public class UDPProtocolClient {
+public class UDPProtocolClient extends AbstractProtocolClient{
 
 	private final UDPMessageBroker broker;
 	private final int maxAttemps = 3;
