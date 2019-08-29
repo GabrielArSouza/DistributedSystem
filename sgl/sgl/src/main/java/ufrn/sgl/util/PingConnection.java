@@ -44,7 +44,7 @@ public class PingConnection extends Thread{
 		while (isRunning) {
 			try {
 				this.sendMessage();
-				Message m = this.receiveMessage();
+				this.receiveMessage();
 				//System.out.println(m.getClass());
 				Thread.sleep(1000);
 			} catch (IOException e) {

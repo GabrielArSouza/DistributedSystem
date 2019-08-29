@@ -1,4 +1,4 @@
-package ufrn.sgl.client.udp;
+package ufrn.sgl.client;
 
 import java.net.SocketException;
 import java.net.UnknownHostException;

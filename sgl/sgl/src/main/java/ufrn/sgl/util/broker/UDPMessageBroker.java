@@ -1,4 +1,4 @@
-package ufrn.sgl.util;
+package ufrn.sgl.util.broker;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -10,7 +10,7 @@ import java.net.SocketTimeoutException;
 
 import ufrn.sgl.Exceptions.ConnectionFailureException;
 import ufrn.sgl.messages.Message;
-import ufrn.sgl.messages.protocol.connection.CheckConnection;
+import ufrn.sgl.util.MessageConvert;
 
 public class UDPMessageBroker {
 
