@@ -7,7 +7,7 @@ import ufrn.sgl.client.udp.UDPClient;
 import ufrn.sgl.model.Address;
 import ufrn.sgl.model.Bidding;
 import ufrn.sgl.model.Company;
-import ufrn.sgl.model.Tender;
+//import ufrn.sgl.model.Tender;
 import ufrn.sgl.model.User;
 
 /**
@@ -41,7 +41,7 @@ public class App
     	
     	Bidding bidding = new Bidding(user, "compra de papel", 78329011);
     	
-    	Tender tender = new Tender(company, bidding, 1234.89);
+    	//Tender tender = new Tender(company, bidding, 1234.89);
     	
     	try {
 			UDPClient client = new UDPClient();
