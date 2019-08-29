@@ -191,8 +191,6 @@ public class UDPClient {
 	 * LIST
 	 */
 	
-	public List<User> listUser (User company) { return null;}
-	public List<Company> listCompany (Company company) { return null; }
 	public List<Bidding> listCompany (Bidding company) { return null; }
 	public List<Tender> listCompany (Tender company) { return null; }
 	
