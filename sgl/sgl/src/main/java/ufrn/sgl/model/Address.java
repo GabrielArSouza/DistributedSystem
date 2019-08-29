@@ -31,6 +31,7 @@ public class Address implements Serializable{
 	@Column(name = "state")
 	private String state;
 	
+	
 	public Address () {	}
 	
 	public Address (long id) { this.id = id;}

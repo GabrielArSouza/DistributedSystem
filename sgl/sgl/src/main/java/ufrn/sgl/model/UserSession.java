@@ -1,6 +1,5 @@
 package ufrn.sgl.model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Entity;
@@ -21,11 +20,11 @@ public class UserSession {
 	@Column(name = "id")
 	private long id;
 	
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name="user_id")
 	private User user;
 	
-	@Column(name = "token")
+	@Column(name = "token", unique = true)
 	private String token;
 	
 	public UserSession() {	}

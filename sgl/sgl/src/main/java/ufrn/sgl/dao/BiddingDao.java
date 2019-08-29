@@ -30,9 +30,9 @@ public class BiddingDao implements BiddingDaoInterface {
 			return bidding.getId();
 			
 		} catch (Exception e) {
-			if (transaction != null) {
-				transaction.rollback();
-			}
+//			if (transaction != null) {
+//				transaction.rollback();
+//			}
 			e.printStackTrace();
 			return -1;
 		}
@@ -57,6 +57,36 @@ public class BiddingDao implements BiddingDaoInterface {
 			e.printStackTrace();
 		}
 		return bidding;
+	}
+	
+	@Override
+	public Bidding read(Bidding bidding) {
+		Transaction transaction = null;
+		
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			// start a transaction
+			transaction = session.beginTransaction();
+			
+			// get an user object
+	        String hql = "FROM Bidding B WHERE B.code = :code";
+	        Query query = session.createQuery(hql);
+	        query.setParameter("code", bidding.getCode());
+	   
+	        List<?> results = query.getResultList();
+	       
+	        // commit transaction
+	        transaction.commit();
+	        
+	        if (results != null && !results.isEmpty()) {
+               return (Bidding) results.get(0);
+            }else { return null; }
+	        
+		} catch (Exception e) {
+			e.printStackTrace();
+	        if (transaction != null) 
+	        	transaction.rollback();
+		}
+		return null;
 	}
 
 	@Override

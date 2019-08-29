@@ -3,7 +3,6 @@ package ufrn.sgl.dao.interfaces;
 import java.util.List;
 
 import ufrn.sgl.model.Bidding;
-import ufrn.sgl.model.Company;
 
 public interface BiddingDaoInterface {
 
@@ -19,6 +18,8 @@ public interface BiddingDaoInterface {
 	 * @return the bidding that match with ID
 	 */
 	public Bidding read (long id);
+	
+	public Bidding read(Bidding bidding);
 	
 	/**
 	 * update the bidding in a database

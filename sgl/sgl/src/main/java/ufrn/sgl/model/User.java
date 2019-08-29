@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+
 @Entity
 @Embeddable
 @Table(name = "User")
@@ -40,10 +41,9 @@ public class User implements Serializable{
 	@Column(name = "password")
 	private String password;
 	
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne(cascade=CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name="address_id")
 	private Address address;
-	
 	
 	public User (String email, String password){
 		this.email = email;
@@ -109,8 +109,6 @@ public class User implements Serializable{
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	
 
 	public void setJurisdictionalName(String jurisdictionalName) {
 		this.jurisdictionalName = jurisdictionalName;

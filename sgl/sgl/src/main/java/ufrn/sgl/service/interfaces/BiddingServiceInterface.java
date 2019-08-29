@@ -1,5 +1,7 @@
 package ufrn.sgl.service.interfaces;
 
+import java.util.List;
+
 import ufrn.sgl.model.Bidding;
 
 public interface BiddingServiceInterface {
@@ -17,6 +19,8 @@ public interface BiddingServiceInterface {
 	 */
 	public Bidding read (long id);
 	
+	public Bidding read(Bidding bidding);
+	
 	/**
 	 * update the bidding in a database
 	 * @param bidding the bidding for update
@@ -28,5 +32,7 @@ public interface BiddingServiceInterface {
 	 * @param bidding the bidding for delete
 	 */
 	public void delete (long id);
+	
+	public List<Bidding> list ();
 	
 }

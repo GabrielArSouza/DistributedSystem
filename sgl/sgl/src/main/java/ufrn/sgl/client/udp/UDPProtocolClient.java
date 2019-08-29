@@ -1,6 +1,5 @@
 package ufrn.sgl.client.udp;
 
-import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
@@ -9,8 +8,6 @@ import java.net.UnknownHostException;
 import ufrn.sgl.Exceptions.ConnectionFailureException;
 import ufrn.sgl.messages.Message;
 import ufrn.sgl.messages.OperationFailed;
-import ufrn.sgl.messages.protocol.session.FailSession;
-import ufrn.sgl.messages.protocol.session.SuccessfullySession;
 import ufrn.sgl.util.Definitions;
 import ufrn.sgl.util.PingConnection;
 import ufrn.sgl.util.UDPMessageBroker;
@@ -53,32 +50,7 @@ public class UDPProtocolClient {
 		return new OperationFailed("Error - check the internet connection");
 		
 	}
-	
-	public Message logout ( Message msg ) {
-		
-		int attemps = 0;
-		
-		while (attemps < maxAttemps) {
-			try {
-				broker.sendMessage(msg, getActualIP(), Definitions.SERVER_RECEIVE_PORT);
-				Message m = broker.receiveMessage();
-				if (m.getClass().equals(SuccessfullySession.class)) {
-					this.ping.interrupt();
-					return m;
-				}else attemps++;
-			} catch (IOException e) {
-				System.out.println("Error - logout fail");
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			} catch (ConnectionFailureException e) {
-				attemps++;
-				continue;
-			}
-		}
-		return new FailSession();
 
-	}
-	
 	private InetAddress getActualIP () throws UnknownHostException {
 		return InetAddress.getByName(Definitions.SERVERS[ping.getIdServer()]);
 	}

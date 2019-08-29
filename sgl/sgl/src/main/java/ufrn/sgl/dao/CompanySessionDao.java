@@ -32,7 +32,7 @@ public class CompanySessionDao implements CompanySessionDaoInterface{
 	}
 
 	@Override
-	public CompanySession read(CompanySession companySession) {
+	public CompanySession read(String token) {
 		Transaction transaction = null;
 		
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -40,10 +40,9 @@ public class CompanySessionDao implements CompanySessionDaoInterface{
 			transaction = session.beginTransaction();
 			
 			// get an user object
-	        String hql = "FROM CompanySession C WHERE C.company_id = :id and U.token = :token";
+	        String hql = "FROM CompanySession C WHERE C.token = :token";
 	        Query query = session.createQuery(hql);
-	        query.setParameter("id", companySession.getCompany().getId());
-	        query.setParameter("token", companySession.getToken());
+	        query.setParameter("token", token);
 
 	        List<?> results = query.getResultList();
 	       

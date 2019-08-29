@@ -1,6 +1,5 @@
 package ufrn.sgl.model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Entity;
@@ -13,7 +12,7 @@ import javax.persistence.Table;
 
 @Entity
 @Embeddable
-@Table(name = "CompanySessions")
+@Table(name = "CompanySession")
 public class CompanySession {
 
 	@Id
@@ -21,7 +20,7 @@ public class CompanySession {
 	@Column(name = "id")
 	private long id;
 	
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name="company_id")
 	private Company company;
 	

@@ -1,5 +1,7 @@
 package ufrn.sgl.model;
 
+import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -8,24 +10,26 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Embeddable
 @Table (name = "Tender")
-public class Tender {
+public class Tender implements Serializable {
+
+	private static final long serialVersionUID = -9081239952128040140L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private long id;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="company_id")
 	private Company company;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="bidding_id")
 	private Bidding bidding;
 	
@@ -78,7 +82,5 @@ public class Tender {
 	public void setId(long id) {
 		this.id = id;
 	}
-	
-
 	
 }

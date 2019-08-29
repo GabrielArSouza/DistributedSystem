@@ -1,32 +1,32 @@
 package ufrn.sgl.service;
 
+import ufrn.sgl.dao.CompanySessionDao;
+import ufrn.sgl.dao.interfaces.CompanySessionDaoInterface;
 import ufrn.sgl.model.CompanySession;
 import ufrn.sgl.service.interfaces.CompanySessionServiceInterface;
 
 public class CompanySessionService implements CompanySessionServiceInterface {
 
+	CompanySessionDaoInterface dao = new CompanySessionDao();
+	
 	@Override
 	public long create(CompanySession session) {
-		// TODO Auto-generated method stub
-		return 0;
+		return dao.create(session);
 	}
 
 	@Override
-	public CompanySession read(CompanySession session) {
-		// TODO Auto-generated method stub
-		return null;
+	public CompanySession read(String token) {
+		return dao.read(token);
 	}
 
 	@Override
 	public void update(CompanySession session) {
-		// TODO Auto-generated method stub
-		
+		dao.update(session);	
 	}
 
 	@Override
 	public void delete(long id) {
-		// TODO Auto-generated method stub
-		
+		dao.delete(id);
 	}
 
 }
