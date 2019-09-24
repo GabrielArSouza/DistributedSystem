@@ -4,15 +4,17 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.Random;
 
 import ufrn.sgl.Exceptions.ConnectionFailureException;
+import ufrn.sgl.client.AbstractProtocolClient;
 import ufrn.sgl.messages.Message;
 import ufrn.sgl.messages.OperationFailed;
 import ufrn.sgl.util.Definitions;
 import ufrn.sgl.util.PingConnection;
-import ufrn.sgl.util.UDPMessageBroker;
+import ufrn.sgl.util.broker.UDPMessageBroker;
 
-public class UDPProtocolClient {
+public class UDPProtocolClient extends AbstractProtocolClient{
 
 	private final UDPMessageBroker broker;
 	private final int maxAttemps = 3;
@@ -25,7 +27,12 @@ public class UDPProtocolClient {
 		receiveSocket.setSoTimeout(5000);
 		
 		this.broker = new UDPMessageBroker(sendSocket, receiveSocket);
-		this.ping = new PingConnection(0);
+		
+		// start in a random server
+		Random rand = new Random();
+		int n = rand.nextInt(Definitions.NUMBER_SERVERS);
+		this.ping = new PingConnection(n);
+		
 		ping.start();
 	}
 	
@@ -47,6 +54,7 @@ public class UDPProtocolClient {
 				return new OperationFailed("Exception when trying execute operation - Try again");
 			}
 		}
+		ping.interrupt();
 		return new OperationFailed("Error - check the internet connection");
 		
 	}

@@ -7,7 +7,6 @@ import ufrn.sgl.client.udp.UDPClient;
 import ufrn.sgl.model.Address;
 import ufrn.sgl.model.Bidding;
 import ufrn.sgl.model.Company;
-//import ufrn.sgl.model.Tender;
 import ufrn.sgl.model.User;
 
 /**
@@ -46,23 +45,23 @@ public class App
     	try {
 			UDPClient client = new UDPClient();
 			client.createUser(user);
-			Thread.sleep(1000);
+			Thread.sleep(3000);
 			user = client.readUser(user);
-			Thread.sleep(1000);
+			Thread.sleep(3000);
 			String token = client.userLogin(user);
-			Thread.sleep(1000);
+			Thread.sleep(3000);
 			client.createBidding(bidding, token);
-			Thread.sleep(1000);	
+			Thread.sleep(3000);	
 			bidding = client.readBidding(bidding, token);
-			Thread.sleep(1000);	
+			Thread.sleep(3000);	
 			client.createCompany(company);
-			Thread.sleep(2000);	
+			Thread.sleep(3000);	
 			company = client.readCompany(company);
-			Thread.sleep(2000);	
+			Thread.sleep(3000);	
 			String token2 = client.companyLogin(company);
-			Thread.sleep(2000);	
+			Thread.sleep(3000);	
 			client.companyLogout(token2);
-			Thread.sleep(1000);
+			Thread.sleep(3000);
 			client.userLogout(token);
 				
 		} catch (SocketException e) {

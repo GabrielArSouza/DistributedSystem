@@ -60,7 +60,7 @@ import ufrn.sgl.service.interfaces.UserServiceInterface;
 import ufrn.sgl.service.interfaces.UserSessionServiceInterface;
 import ufrn.sgl.util.TokenGenerator;
 
-public class UDPProtocolServer {
+public class ProtocolServer {
 
 	private static final UserServiceInterface userService = new UserService();
 	private static final BiddingServiceInterface biddingService = new BiddingService();
