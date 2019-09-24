@@ -1,4 +1,4 @@
-package ufrn.sgl.server;
+package ufrn.sgl.server.udp;
 
 import java.net.DatagramPacket;
 import java.net.InetAddress;
