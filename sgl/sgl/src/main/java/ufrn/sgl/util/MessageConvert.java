@@ -1,7 +1,9 @@
 package ufrn.sgl.util;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 
@@ -17,6 +19,20 @@ public class MessageConvert {
 		if (instance == null) 
 			instance = new MessageConvert();
 		return instance;
+	}
+	
+	public Message convertByteArrayToMessage (byte[] array) {
+		ObjectInputStream iStream;
+		try {
+			iStream = new ObjectInputStream(new ByteArrayInputStream(array));
+			Message msg = (Message) iStream.readObject();
+    		iStream.close();
+    		return msg;
+		}catch (Exception e) {
+			System.out.println("Error: Convert byte array in message");
+			return null;
+		}
+
 	}
 	
 	public byte[] convertMessageToByteArray (Message obj) {
