@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+	<title>Question</title>
+	
+	<!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="materialize/css/materialize.min.css"  media="screen,projection"/>
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+
+<body class="container">
+
+	<nav>
+	   	<div class="nav-wrapper">
+	     		<a href="/" class="brand-logo">Question</a>
+	     		<ul id="nav-mobile" class="right hide-on-med-and-down">
+	       		<li><a href="/registerQuestion"><i class="material-icons">add_box</i></a></li>
+	       		<li><a href="/questions"><i class="material-icons">list</i></a></li>
+	       		<li><a href="/searchQuestion"><i class="material-icons">search</i></a></li>
+	     		</ul>
+	   	</div>
+	</nav>
+
+	<br>
+	<br>
+	
+	<br>
+	<h5>Search Question</h5>
+	<div class="row">
+    <form class="col s12" method="get">
+      <div class="row">
+        <div class="input-field col s12">
+          <input  id="tag" type="text" data-length="10000" name="tag">
+          <label for="tag">Term</label>
+        </div>
+      </div>
+    
+      <button type="submit" class="waves-effect waves-light btn">Send</button>
+    </form>
+    
+  	</div>
+	
+	<br>
+	
+	<table class="responsive-table">
+		<thead>
+			<tr>
+				<th>Title</th>
+				<th>Description</th>
+				<th>Date</th>
+				<th>Answers</th>
+				<th>Score</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="question : ${questions}">
+				<td> <span th:text="${question.title}"> </span></td>
+				<td> <span th:text="${question.body}"> </span></td>
+				<td> <span th:text="${question.date}"> </span></td>
+				<td> <span th:text="${question.numberAnswer}"> </span></td>
+				<td> <span th:text="${question.score}"> </span></td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<!--JavaScript at end of body for optimized loading-->
+    <script type="text/javascript" src="materialize/js/materialize.min.js"></script>
+</body>
+	
+
+</html>
