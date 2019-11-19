@@ -8,17 +8,23 @@
         <outputRelativeToContentRoot value="true" />
         <module name="core" />
         <module name="user" />
+        <module name="discovery" />
+        <module name="gateway" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="core" target="1.8" />
+      <module name="discovery" target="11" />
       <module name="forum-microservice" target="1.8" />
+      <module name="gateway" target="11" />
       <module name="user" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="core" options="-parameters" />
+      <module name="discovery" options="-parameters" />
+      <module name="gateway" options="-parameters" />
       <module name="user" options="-parameters" />
     </option>
   </component>

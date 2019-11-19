@@ -28,7 +28,7 @@ public class UserController {
 	public String login(String email, String password) {
 		User user = repo.loginUser(email, password);
 		if (user == null) return "error";
-		return "index";
+		return "welcome";
 	}
 	
 	@RequestMapping(value="/registerUser", method = RequestMethod.POST)
