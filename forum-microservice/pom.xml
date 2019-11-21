@@ -20,13 +20,22 @@
         <module>core</module>
         <module>discovery</module>
         <module>gateway</module>
+        <module>auth</module>
+        <module>question</module>
+        <module>token</module>
     </modules>
 
     <properties>
         <spring-cloud.version>Hoxton.RC2</spring-cloud.version>
+        <nimbus-jose.version>8.2.1</nimbus-jose.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>com.nimbusds</groupId>
+            <artifactId>nimbus-jose-jwt</artifactId>
+            <version>${nimbus-jose.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.cloud</groupId>
