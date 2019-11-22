@@ -16,9 +16,23 @@
 
 	<properties>
 		<java.version>11</java.version>
+		<microservice-token.version>1.0-SNAPSHOT</microservice-token.version>
+		<microservice-core.version>1.0-SNAPSHOT</microservice-core.version>
 	</properties>
 
 	<dependencies>
+
+		<dependency>
+			<groupId>ufrn.microservice</groupId>
+			<artifactId>token</artifactId>
+			<version>${microservice-token.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>ufrn.microservice</groupId>
+			<artifactId>core</artifactId>
+			<version>${microservice-core.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>

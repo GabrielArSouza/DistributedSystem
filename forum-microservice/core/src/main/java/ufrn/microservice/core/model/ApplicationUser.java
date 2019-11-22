@@ -1,5 +1,6 @@
 package ufrn.microservice.core.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
 import javax.persistence.*;
@@ -13,6 +14,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApplicationUser implements AbstractEntity{
 
     @Id
@@ -34,6 +36,7 @@ public class ApplicationUser implements AbstractEntity{
     private String password;
 
     @Column(nullable = false)
+    @Builder.Default
     private String role = "USER";
 
     public ApplicationUser(@NotNull ApplicationUser applicationUser) {

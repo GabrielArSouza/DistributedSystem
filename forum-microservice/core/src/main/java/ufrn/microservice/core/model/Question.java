@@ -26,9 +26,15 @@ public class Question implements AbstractEntity {
     @Lob
     private String body;
 
-    @Override
-    public Long getId() {
-        return id;
-    }
+    @Column(nullable = false)
+    private Long userId;
+
+    @Column(nullable = false)
+    @Builder.Default
+    private int answerNumber = 0;
+
+    @Column(nullable = false)
+    @Builder.Default
+    private int score = 0;
 
 }
