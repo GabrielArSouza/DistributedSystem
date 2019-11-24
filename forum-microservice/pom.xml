@@ -16,13 +16,14 @@
 
 
     <modules>
-        <module>user</module>
+        <module>view</module>
         <module>core</module>
         <module>discovery</module>
         <module>gateway</module>
         <module>auth</module>
         <module>question</module>
         <module>token</module>
+        <module>backend</module>
     </modules>
 
     <properties>

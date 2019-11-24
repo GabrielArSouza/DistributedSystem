@@ -9,16 +9,17 @@
 		<relativePath>../</relativePath>
 	</parent>
 
-	<artifactId>question</artifactId>
+	<artifactId>backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>question</name>
-	<description>Question microservice for Spring Boot</description>
+	<name>backend</name>
+	<description>Beckand microservice for Spring Boot</description>
 
 	<properties>
 		<java.version>11</java.version>
 		<microservice-core.version>1.0-SNAPSHOT</microservice-core.version>
 		<microservice-token.version>1.0-SNAPSHOT</microservice-token.version>
 	</properties>
+
 
 	<dependencies>
 		<dependency>
@@ -31,6 +32,18 @@
 			<groupId>ufrn.microservice</groupId>
 			<artifactId>core</artifactId>
 			<version>${microservice-core.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-httpclient</groupId>
+			<artifactId>commons-httpclient</artifactId>
+			<version>3.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.10.0</version>
 		</dependency>
 
 	</dependencies>
