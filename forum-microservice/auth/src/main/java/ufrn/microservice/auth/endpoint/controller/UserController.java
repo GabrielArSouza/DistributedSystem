@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import ufrn.microservice.auth.endpoint.service.UserService;
 import ufrn.microservice.core.model.ApplicationUser;
@@ -28,9 +29,10 @@ public class UserController {
         return new ResponseEntity<>(applicationUser, HttpStatus.OK);
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/add")
-    @ResponseStatus(HttpStatus.OK)
     public void addQuestion (@RequestBody ApplicationUser user){
+        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         userService.add(user);
     }
 

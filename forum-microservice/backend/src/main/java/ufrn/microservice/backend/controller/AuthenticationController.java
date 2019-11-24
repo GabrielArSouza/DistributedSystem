@@ -13,6 +13,7 @@ import ufrn.microservice.core.model.ApplicationUser;
 
 import java.net.URI;
 import java.net.http.HttpClient;
+import java.net.http.HttpHeaders;
 import java.net.http.HttpRequest;
 
 import java.net.http.HttpResponse;
@@ -20,7 +21,6 @@ import java.net.http.HttpResponse;
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
-@RequestMapping("/auth")
 @Slf4j
 public class AuthenticationController {
 
@@ -50,6 +50,21 @@ public class AuthenticationController {
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @PostMapping("/add")
+    @SneakyThrows
+    public void addAccount(@RequestBody ApplicationUser user){
+        String data = mapper.writeValueAsString(user);
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .POST(HttpRequest.BodyPublishers.ofString(data))
+                .setHeader("Content-Type", "application/json")
+                .uri(URI.create(gateway+"auth/user/add"))
+                .build();
+
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
     }
 
 }
