@@ -8,20 +8,20 @@
         <outputRelativeToContentRoot value="true" />
         <module name="backend" />
         <module name="discovery" />
-        <module name="view" />
         <module name="token" />
         <module name="auth" />
+        <module name="view" />
         <module name="gateway" />
-        <module name="core" />
         <module name="question" />
+        <module name="core" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="auth" target="11" />
       <module name="backend" target="11" />
-      <module name="core" target="1.8" />
+      <module name="core" target="11" />
       <module name="discovery" target="11" />
-      <module name="forum-microservice" target="1.8" />
+      <module name="forum-microservice" target="11" />
       <module name="gateway" target="11" />
       <module name="question" target="11" />
       <module name="token" target="11" />

@@ -9,6 +9,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import ufrn.microservice.core.property.JwtConfiguration;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
@@ -32,7 +33,7 @@ public class SecurityTokenConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(jwtConfiguration.getLoginUrl(), "/**/swagger-ui.html").permitAll()
                 .antMatchers(HttpMethod.GET, "/**/swagger-resources/**", "/**/webjars/springfox-swagger-ui/**", "/**/v2/api-docs/**").permitAll()
-                .antMatchers("/view/home/**", "/home/**", "/view/account/**", "/account/**").permitAll()
+                .antMatchers("/view/home/**", "/home/**", "/view/account/**", "/account/**", "/view/login/**", "/login/**", "/view/logout/**", "/logout/**").permitAll()
                 .antMatchers("/backend/login/**", "/login/**", "/backend/add/**", "/add/**").permitAll()
                 .antMatchers("/auth/login/**").permitAll()
                 .antMatchers("/auth/user/add/**", "/auth/add/**", "/user/add/**","/add/**").permitAll()

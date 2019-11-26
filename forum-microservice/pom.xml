@@ -31,9 +31,16 @@
         <nimbus-jose.version>8.2.1</nimbus-jose.version>
         <commons-lang.version>3.8.1</commons-lang.version>
         <swagger-ui.version>2.9.2</swagger-ui.version>
+        <java.version>11</java.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>commons-httpclient</groupId>
+            <artifactId>commons-httpclient</artifactId>
+            <version>3.1</version>
+        </dependency>
+
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
@@ -141,4 +148,5 @@
             <url>https://repo.spring.io/milestone</url>
         </repository>
     </repositories>
+
 </project>
