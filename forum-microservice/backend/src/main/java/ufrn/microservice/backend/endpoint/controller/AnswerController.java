@@ -27,8 +27,11 @@ public class AnswerController {
     @SneakyThrows
     public ResponseEntity<String> addQuestion(@RequestBody Answer answer, @RequestHeader("Authorization") String token){
         String data = mapper.writeValueAsString(answer);
+        log.info("parsing answer to question id '{}'", answer.getQuestionId());
         HttpResponse<String> response = HttpRequestManager.requestPostOperationWithAuth(data, gateway+"answer/add", token);
-        if (response.statusCode() == 200) return new ResponseEntity<>("Success", HttpStatus.OK);
+        log.info("updating the number of answers in the question id '{}'", answer.getQuestionId());
+        HttpResponse<String> response2 = HttpRequestManager.requestPostOperationWithAuth("", gateway+"question/update/answers/"+answer.getQuestionId(), token);
+        if (response.statusCode() == 200 && response2.statusCode() == 200) return new ResponseEntity<>("Success", HttpStatus.OK);
         else return new ResponseEntity<>("Error", HttpStatus.NOT_ACCEPTABLE);
     }
 }

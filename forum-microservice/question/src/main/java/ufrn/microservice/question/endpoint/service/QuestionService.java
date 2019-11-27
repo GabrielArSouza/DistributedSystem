@@ -19,5 +19,6 @@ public class QuestionService {
     }
     public void add (Question question) {questionRepository.save(question);}
     public Question getQuestion(Long id) {return questionRepository.findById(id).get(); }
+    public void update(Question question) {questionRepository.updateNumberAnswer(question.getAnswerNumber(), question.getId());}
 
 }

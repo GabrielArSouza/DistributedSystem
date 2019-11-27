@@ -51,4 +51,13 @@ public class QuestionController {
         return new ResponseEntity<>(data, OK);
     }
 
+    @PostMapping("/update/answers/{id}")
+    @SneakyThrows
+    public ResponseEntity<String> addNewAnswer(@PathVariable("id") Long id){
+        Question question = questionService.getQuestion(id);
+        question.setAnswerNumber(question.getAnswerNumber()+1);
+        questionService.update(question);
+        return new ResponseEntity<>("Updated", OK);
+    }
+
 }
