@@ -9,7 +9,6 @@ eureka:
       defaultZone: http://localhost:8081/eureka/
     register-with-eureka: true
 
-
 spring:
   application:
     name: view

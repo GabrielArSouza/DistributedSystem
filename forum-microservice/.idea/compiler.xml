@@ -10,13 +10,15 @@
         <module name="discovery" />
         <module name="token" />
         <module name="auth" />
-        <module name="view" />
         <module name="gateway" />
+        <module name="view" />
+        <module name="answer" />
         <module name="question" />
         <module name="core" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="answer" target="11" />
       <module name="auth" target="11" />
       <module name="backend" target="11" />
       <module name="core" target="11" />
@@ -31,6 +33,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="answer" options="-parameters" />
       <module name="auth" options="-parameters" />
       <module name="backend" options="-parameters" />
       <module name="core" options="-parameters" />

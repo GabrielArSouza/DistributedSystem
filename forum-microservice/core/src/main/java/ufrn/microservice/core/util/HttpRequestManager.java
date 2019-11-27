@@ -1,11 +1,14 @@
 package ufrn.microservice.core.util;
 
 import lombok.SneakyThrows;
+import org.springframework.http.ResponseEntity;
+import ufrn.microservice.core.model.Question;
 
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+
 
 public class HttpRequestManager {
 
@@ -47,6 +50,5 @@ public class HttpRequestManager {
 
         return httpClient.send(request, HttpResponse.BodyHandlers.ofString());
     }
-
 
 }

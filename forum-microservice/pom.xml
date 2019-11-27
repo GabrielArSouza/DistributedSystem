@@ -24,6 +24,7 @@
         <module>question</module>
         <module>token</module>
         <module>backend</module>
+        <module>answer</module>
     </modules>
 
     <properties>

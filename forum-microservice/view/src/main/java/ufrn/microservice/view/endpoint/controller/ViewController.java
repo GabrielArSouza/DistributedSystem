@@ -11,10 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import ufrn.microservice.core.model.ApplicationUser;
 import ufrn.microservice.core.util.HttpRequestManager;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.net.http.HttpResponse;
-import java.util.Iterator;
 
 @Slf4j
 @Controller
@@ -45,7 +43,6 @@ public class ViewController {
         String token = (String) session.getAttribute("token");
 
         log.info("Realizing the logout to user id '{}'", userId);
-        System.out.println(token);
         HttpResponse<String> response = HttpRequestManager.requestPostOperationWithAuth(
                 userId.toString(), gateway+"backend/"+userId+"/logout", token);
 

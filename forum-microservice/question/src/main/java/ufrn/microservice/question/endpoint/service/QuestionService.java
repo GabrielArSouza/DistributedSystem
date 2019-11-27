@@ -18,5 +18,6 @@ public class QuestionService {
         return questionRepository.findAll(pageable);
     }
     public void add (Question question) {questionRepository.save(question);}
+    public Question getQuestion(Long id) {return questionRepository.findById(id).get(); }
 
 }

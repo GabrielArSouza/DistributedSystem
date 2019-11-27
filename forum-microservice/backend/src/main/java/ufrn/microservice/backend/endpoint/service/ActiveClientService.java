@@ -18,5 +18,7 @@ public class ActiveClientService {
     public void add (ActiveClient activeClient){activeClientRepository.save(activeClient);}
     @Transactional
     public void logout (Long userId){activeClientRepository.deleteByUserId(userId);}
+    @Transactional
+    public void delete (ActiveClient activeClient){activeClientRepository.delete(activeClient);}
 
 }

@@ -19,9 +19,6 @@ import ufrn.microservice.core.util.HttpRequestManager;
 
 
 import java.net.http.HttpResponse;
-import java.sql.Blob;
-import java.sql.Connection;
-import java.sql.DriverManager;
 
 import static org.springframework.http.HttpStatus.OK;
 
@@ -48,6 +45,7 @@ public class AuthenticationController {
             ActiveClient client = new ActiveClient();
             client.setUserId(info.getId());
             client.setToken(token);
+            activeClientService.delete(client);
             activeClientService.add(client);
 
             return new ResponseEntity<>(token, OK);
