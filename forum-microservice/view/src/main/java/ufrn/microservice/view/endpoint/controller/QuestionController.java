@@ -45,7 +45,7 @@ public class QuestionController {
             log.info("Successfully question register");
         else  log.info("Error - code:" + response.statusCode());
 
-        return "redirect:question/list";
+        return "redirect:/question/list";
     }
 
     @RequestMapping("/question/list")
