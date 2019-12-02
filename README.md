@@ -5,11 +5,6 @@
 EMPIRE is an example of how to use microservices with Spring Boot for a develop a Forum application. The EMPIRE can be used as the base for various other projects with microservices. The software Eureka and Zull are used for service discovery and gateway. A Backend is created to the connection among all microservices. The view microservice is an application to the view layer. For the security of system, the JWT is used for generating a token to access the microservices. This project was developed based on the course of DevDojo.
 
 
-
-## Architecture
-
-
-
 ## How to execute the project
 
 1. Download the project with the clone in the repository or .zip
