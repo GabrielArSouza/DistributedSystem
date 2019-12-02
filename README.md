@@ -16,13 +16,15 @@ EMPIRE is an example of how to use microservices with Spring Boot for a develop 
 
 2. Open the project "forum-microservices" as a Maven project in an IDE
 
-3. Execute the Discovery microservice as a Java Application
+3. Install the lombok plugin in your IDE
 
-4. Execute the Gateway microservice as a Java Application
+4. Execute the Discovery microservice as a Java Application
 
-5. Execute the others microservices also a Java application
+5. Execute the Gateway microservice as a Java Application
 
-6. Open a browser and enter in localhost:8085
+6. Execute the others microservices also as a Java application
+
+7. Open a browser and enter in localhost:8085
 
 
 
