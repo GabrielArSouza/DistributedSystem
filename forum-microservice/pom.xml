@@ -29,7 +29,7 @@
 
     <properties>
         <spring-cloud.version>Hoxton.RC2</spring-cloud.version>
-        <nimbus-jose.version>8.2.1</nimbus-jose.version>
+        <nimbus-jose.version>9.37.2</nimbus-jose.version>
         <commons-lang.version>3.8.1</commons-lang.version>
         <swagger-ui.version>2.9.2</swagger-ui.version>
         <java.version>11</java.version>
